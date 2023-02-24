@@ -42,8 +42,8 @@ public class MainPanel extends JPanel {
         this.currentFilter = filtroRicerca;
         this.listaB = b;
         ArrayList<Transazione> l = b.getFilteredList(filtroRicerca);
-        for(int i = 0; i<l.size();i++){
-            System.out.println("Elemento -> " + l.get(i).toString());;
+        for (Transazione transazione : l) {
+            System.out.println("Elemento -> " + transazione.toString());
         }
 
 

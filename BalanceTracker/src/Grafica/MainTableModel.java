@@ -25,7 +25,7 @@ public class MainTableModel extends AbstractTableModel {
     public MainTableModel(Bilancio b, MainPanel p,FiltroRicerca filtro){
         this.listaB = b;
         this.list = b.getListaB();
-        //this.list = b.getFilteredList(filtro);
+        this.list = b.getFilteredList(filtro);
         this.p = p;
 
     }
@@ -52,12 +52,17 @@ public class MainTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         //seleziono la transazione da mostrare da dentro la lista
         Transazione t = (Transazione)list.get(rowIndex);
-        return switch (columnIndex) {
-            case 0 -> t.getData(); //potrebbe essere sbagliato
-            case 1 ->  t.getDescrizione();
-            case 2 -> t.getAmmontare() + valuta;
-            default -> "ERRORE";
-        };
+        switch (columnIndex) {
+            case 0:
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
+                 return t.getData().format(formatter);
+            case 1:
+                return t.getDescrizione();
+            case 2:
+                return t.getAmmontare() + valuta;
+            default:
+                return "ERRORE";
+        }
     }
 
     /**
