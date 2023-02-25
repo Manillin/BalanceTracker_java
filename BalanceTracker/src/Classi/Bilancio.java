@@ -1,8 +1,6 @@
 package Classi;
-import java.awt.*;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
+import Interfacce.Salvabile;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,7 +10,7 @@ import java.util.Iterator;
  * Classe che rappresenta l'insieme delle transazioni (struttura dati)
  */
 
-public class Bilancio implements Serializable{
+public class Bilancio implements Salvabile, Serializable{
     private ArrayList<Transazione> listaB;
     private float sommaTot;
     private String valuta;
@@ -23,7 +21,6 @@ public class Bilancio implements Serializable{
         listaB = new ArrayList<Transazione>();
         sommaTot = 0F;
         valuta = "€";
-
     }
 
     //Caricamento di un bilancio
@@ -184,7 +181,6 @@ public class Bilancio implements Serializable{
             System.out.println("Errore caricamento da file [EXP: " + e.toString()+ " ]");
             return false;
         }
-
         listaB = null;
         try{
             listaB = (ArrayList<Transazione>) (is.readObject());
