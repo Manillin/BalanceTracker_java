@@ -48,8 +48,6 @@ public class MainPanel extends JPanel {
         }
         //debug
         update();
-
-
         /*
         this.setLayout(new GridLayout(numSezioni,1));
         JPanel[] sezione = new JPanel[numSezioni]; //forse conviene farlo nel costruttore
@@ -112,6 +110,7 @@ public class MainPanel extends JPanel {
         }
         updatePan();
         */
+
     }
     public void updatePan(){
 
@@ -256,7 +255,7 @@ public class MainPanel extends JPanel {
 
 
     public void updateSomma(JLabel label,Bilancio listaB){
-        label.setText("[ "+ listaB.getSommaTot() + " ]");
+        label.setText("[ "+ listaB.getFilteredTot(currentFilter) + " ]");
     }
     /**
      * Centra gli elementi delle celle della tabella passata in ingresso

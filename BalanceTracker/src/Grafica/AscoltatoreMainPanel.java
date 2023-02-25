@@ -99,10 +99,8 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
                                     System.out.println("Something went wrong - reached illegal default branch in switch case [AscoltatoreMainPanel.java line 80]");
                         }
                     }
-
-                    model.fireTableDataChanged();
                     System.out.println("<DEBUG> - Totale Complessivo -> " + listaB.getSommaTot() + " euro");
-                    mainPanel.updateSomma(totComplessivo, listaB);
+                    mainPanel.update();
 
                 }
             } else if (tmp == search) {
