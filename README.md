@@ -1,9 +1,11 @@
 # BalanceTracker - Java
 
 MiniProgetto per gestire un bilancio
-- GUI
-- Ricerca di transazioni 
-- Disponibilità di filtri per narrow research 
-- Salvataggio e Caricamento bilancio da file
+- GUI [ da sistemare ]
+- Ricerca di transazioni [check]
+- Disponibilità di filtri per narrow research [check]
+- Salvataggio e Caricamento bilancio da file [check]
 - Esportazione in diversi formati [ da implementare ]
-- Uso dell'incapsulamento , ereditarietà e polimorfismo
+- Uso dell'incapsulamento , ereditarietà e polimorfismo [semi-check]
+- Documentazione JavaDoc [ da sistemare ]
+- Fix bugs [ da sistemare ]
