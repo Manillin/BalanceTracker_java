@@ -1,4 +1,5 @@
 package Classi;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -6,7 +7,7 @@ import java.time.LocalDate;
  * Classe che rappresenta una singola transazione (entrata/uscita)
  */
 
-public class Transazione implements Comparable{
+public class Transazione implements Comparable, Serializable {
     private LocalDate data;
     private String descrizione;
     private float ammontare;

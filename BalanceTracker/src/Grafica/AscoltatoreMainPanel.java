@@ -118,7 +118,7 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
                 int result = JOptionPane.showConfirmDialog(null, "Sicuro di voler cancellare gli elementi selezionati?", "Conferma", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
                     int[] selectedRows = table.getSelectedRows();
-                    deleteSelectedRows2(selectedRows);
+                    deleteSelectedRows(selectedRows);
                 } else {
                     System.out.println("Utente non ha confermato la cancellazione");
                 }
@@ -163,7 +163,7 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
                 }
             }
         }
-        model.fireTableDataChanged();
+        mainPanel.update();
     }
 
     private void deleteSelectedRows2(int[] rows){
@@ -172,7 +172,7 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
             app = listaB.getTransazioneAt(rows[i]);
             listaB.delTransazione(app);
         }
-        model.fireTableDataChanged();
+        mainPanel.update();
     }
 
 

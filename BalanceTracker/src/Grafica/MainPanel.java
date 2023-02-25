@@ -2,7 +2,6 @@ package Grafica;
 
 import Classi.Bilancio;
 import Classi.FiltroRicerca;
-import Classi.TipoFiltro;
 import Classi.Transazione;
 
 import javax.swing.*;
@@ -10,8 +9,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
@@ -278,14 +275,5 @@ public class MainPanel extends JPanel {
 
     public Bilancio getListaB() {
         return listaB;
-    }
-
-
-    public MainTableModel getdModel(){
-        return dModel;
-    }
-
-    public void updatedModel() {
-        dModel = new MainTableModel(listaB,this,currentFilter);
     }
 }
