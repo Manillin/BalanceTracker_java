@@ -41,13 +41,16 @@ public class MainPanel extends JPanel {
     public MainPanel(Bilancio b,FiltroRicerca filtroRicerca){
         this.currentFilter = filtroRicerca;
         this.listaB = b;
+        //debug
         ArrayList<Transazione> l = b.getFilteredList(filtroRicerca);
         for (Transazione transazione : l) {
             System.out.println("Elemento -> " + transazione.toString());
         }
+        //debug
+        update();
 
 
-
+        /*
         this.setLayout(new GridLayout(numSezioni,1));
         JPanel[] sezione = new JPanel[numSezioni]; //forse conviene farlo nel costruttore
         for(int i = 0; i<numSezioni;i++){
@@ -108,6 +111,7 @@ public class MainPanel extends JPanel {
             add(sezione[i]);
         }
         updatePan();
+        */
     }
     public void updatePan(){
 
@@ -169,6 +173,88 @@ public class MainPanel extends JPanel {
     }
 
 
+    public void update(){
+        this.removeAll();
+        this.setVisible(false);
+        this.setVisible(true);
+
+
+        System.out.println("Filtro attuale -> "  + currentFilter.toString());
+        //debug
+        ArrayList<Transazione> l = listaB.getFilteredList(currentFilter);
+        for (Transazione transazione : l) {
+            System.out.println("Elemento -> " + transazione.toString());
+        }
+        String tot = listaB.getFilteredTot(currentFilter) + listaB.getValuta();
+        System.out.println("Totale delle transazioni filtrate -> " + tot);
+
+        //debug
+
+
+
+        this.setLayout(new GridLayout(numSezioni,1));
+        JPanel[] sezione = new JPanel[numSezioni]; //forse conviene farlo nel costruttore
+        for(int i = 0; i<numSezioni;i++){
+            sezione[i] = new JPanel();
+        }
+
+        //Z1
+        tTotaleComplessivo = new JLabel("Totale Complessivo: ");
+        totaleComplessivo =  new JLabel("[ "+ tot +" ]");
+        updateSomma(totaleComplessivo,listaB);
+        stringaRicerca = new JLabel("Cerca una transazione: ");
+        titoloFiltro = new JLabel("Bilancio:  " + currentFilter.toString());  // <- aggiungere filtro data
+        dModel = new MainTableModel(listaB,this,currentFilter);
+        table = new JTable(dModel);
+        centerTableElements(table);
+        scrollTable = new JScrollPane(table);
+        fieldRicerca = new JTextField("",23);
+
+        fieldRicerca.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(fieldRicerca.getText().equals("Nessun Elemento trovato")){
+                    fieldRicerca.setText("");
+                    fieldRicerca.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                //non serve
+            }
+        });
+
+        bAggiunta = new JButton("Add");
+        bRimozione = new JButton("Delete");
+        bModifica = new JButton("Modify");
+        bRicerca = new JButton("Ricerca");
+
+        AscoltatoreMainPanel listener = new AscoltatoreMainPanel(bRicerca,bAggiunta,bRimozione,bModifica,
+                listaB,this,dModel,totaleComplessivo,table,fieldRicerca);
+        bAggiunta.addActionListener(listener);
+        bRicerca.addActionListener(listener);
+        bRimozione.addActionListener(listener);
+
+
+        sezione[0].add(titoloFiltro);
+        sezione[1].add(tTotaleComplessivo);
+        sezione[1].add(totaleComplessivo);
+        sezione[2].add(bAggiunta);
+        sezione[2].add(bModifica);
+        sezione[2].add(bRimozione);
+        sezione[3].add(scrollTable);
+        sezione[4].add(fieldRicerca);
+        sezione[4].add(bRicerca);
+
+        for (int i = 0; i<numSezioni;i++){
+            add(sezione[i]);
+        }
+        updatePan();
+    }
+
+
     public void updateSomma(JLabel label,Bilancio listaB){
         label.setText("[ "+ listaB.getSommaTot() + " ]");
     }
@@ -198,5 +284,9 @@ public class MainPanel extends JPanel {
 
     public MainTableModel getdModel(){
         return dModel;
+    }
+
+    public void updatedModel() {
+        dModel = new MainTableModel(listaB,this,currentFilter);
     }
 }

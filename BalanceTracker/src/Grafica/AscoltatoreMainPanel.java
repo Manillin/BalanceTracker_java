@@ -87,6 +87,7 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
                         float ammontareFloat = Float.parseFloat(ammontare);
                         Transazione t = new Transazione(descrizione, ammontareFloat, cData);
                         listaB.addTransazione(t); //OCCHIO
+                        System.out.println("Elemento aggiunto alla lista con successo -> "+ t.toString());
 
                     } catch (Exception err) {
                         switch (error) {

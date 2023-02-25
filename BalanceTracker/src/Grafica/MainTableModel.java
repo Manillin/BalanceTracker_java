@@ -18,14 +18,16 @@ public class MainTableModel extends AbstractTableModel {
     private ArrayList<Transazione> list;
     private static String dateFormat = "dd/MM/yyyy";
     private String valuta = "€";
+    private FiltroRicerca filtro;
 
 
 
     //COSTRUTTORE:
     public MainTableModel(Bilancio b, MainPanel p,FiltroRicerca filtro){
         this.listaB = b;
-        this.list = b.getListaB();
-        this.list = b.getFilteredList(filtro);
+        //this.list = b.getListaB();
+        this.filtro = filtro;
+        this.list = b.getFilteredList(this.filtro);
         this.p = p;
 
     }
@@ -51,7 +53,7 @@ public class MainTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         //seleziono la transazione da mostrare da dentro la lista
-        Transazione t = (Transazione)list.get(rowIndex);
+        Transazione t = list.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);

@@ -44,7 +44,7 @@ public class AscoltatoreFiltri implements ActionListener {
         this.anno = anno;
         this.inizioP = p1;
         this.fineP = p2;
-        this.sceltaAttuale = "Giorno";
+        this.sceltaAttuale = "Giorno"; //scelta attuale per default è giorno
         periodo = new JLabel("Data inizio -- Data fine: ");
         periodoPanel = new JPanel();
         b = p.getListaB();
@@ -58,7 +58,8 @@ public class AscoltatoreFiltri implements ActionListener {
         if (temp instanceof JButton) {
             FiltroRicerca f = null;
             switch (sceltaAttuale) {
-                case "Giorno" ->{f = new FiltroRicerca(TipoFiltro.Giorno, giorno.getText());
+                case "Giorno" ->{
+                    f = new FiltroRicerca(TipoFiltro.Giorno, giorno.getText());
                     System.out.println("Filtro applicato -> " + f.toString());}
                 case "Settimana" -> {
                     f = new FiltroRicerca(TipoFiltro.Settimana, (String) settimana.getSelectedItem());
@@ -80,7 +81,7 @@ public class AscoltatoreFiltri implements ActionListener {
             }
             //Setto filtro e aggiorno tabella
             mainPanel.setCurrentFilter(f);
-            mainPanel.getdModel().fireTableDataChanged();
+            mainPanel.update();
         } else {
             String scelta = (String) comboBox.getSelectedItem(); //mi restituisce il header del filtro che l'user ha scelto
             //se la scelta è diversa da default allora si fa clear è si aggiunge il componente
