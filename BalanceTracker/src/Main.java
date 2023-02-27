@@ -19,10 +19,10 @@ public class Main {
         LocalDate data = LocalDate.of(2022, 12, 20);
         Transazione t1 = new Transazione("Caramelle",12,now);
         Transazione t2 = new Transazione("Pantaloni",134,now2);
-        Transazione t4 = new Transazione("Giacca",153,now2);
+        Transazione t4 = new Transazione("Giacca",153.56f,now2);
         Transazione t5 = new Transazione("Videogioco",54,now2);
         Transazione t6 = new Transazione("Cena",23,now2);
-        Transazione t7 = new Transazione("Spotify",12,now2);
+        Transazione t7 = new Transazione("Spotify",12.33f,now2);
         Transazione t8 = new Transazione("Test",12,data);
         listaB.addTransazione(t1); listaB.addTransazione(t2);
         listaB.addTransazione(t4); listaB.addTransazione(t5);

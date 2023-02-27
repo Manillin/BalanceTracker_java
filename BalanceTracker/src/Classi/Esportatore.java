@@ -3,6 +3,7 @@ package Classi;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Classe per esportare
@@ -49,4 +50,24 @@ public abstract class Esportatore {
         return null;
     }
 
+
+    /**
+     *  Esportatore writer -> Esporta nel formato scelto
+     * @param fout -> FileWriter che scrive
+     * @param separatore -> Separatore che denota il tipo di esportazione (CSV, TXT)
+     * @throws IOException -> gestita dall'esportatore
+     */
+    public void expWriter(FileWriter fout,String separatore) throws IOException{
+        String buff;
+        ArrayList<Transazione> l = b.getListaB();
+        for (Transazione t : l) {
+            buff = t.getData().toString();
+            fout.write(buff + separatore);
+            buff = Float.toString(t.getAmmontare());
+            fout.write(buff + separatore);
+            buff = t.getDescrizione();
+            fout.write(buff + "\n");
+        }
+        fout.close();
+    }
 }

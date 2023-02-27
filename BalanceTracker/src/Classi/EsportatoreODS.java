@@ -9,6 +9,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 //import org.jopendocument.dom.spreadsheet.SpreadSheet;
+/*
+
+
+ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _NON DA IMPLEMENTARE_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+
+
+
+
+
 
 
 public class EsportatoreODS extends Esportatore{
@@ -42,3 +52,7 @@ public class EsportatoreODS extends Esportatore{
         return true;
     }
 }
+
+
+ */
+

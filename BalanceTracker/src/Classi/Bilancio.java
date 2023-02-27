@@ -88,7 +88,7 @@ public class Bilancio implements Salvabile, Serializable, Printable {
     /**
      *
      * @param t -> Nuova transizione da registrare
-     * @return true se la transizione ha esito positivo
+     *
      */
     public void addTransazione(Transazione t) {
         listaB.add(t);
@@ -100,6 +100,12 @@ public class Bilancio implements Salvabile, Serializable, Printable {
      * @param t -> Transizione da cancellare
      *
      */
+
+    public void delTransazionee(Transazione t){
+        listaB.remove(t);
+
+    }
+
 
     public void delTransazione(Transazione t){
         Iterator<Transazione> iterator = listaB.iterator();
@@ -117,10 +123,6 @@ public class Bilancio implements Salvabile, Serializable, Printable {
     }
 
 
-    // metodo da sviluppare -> public boolean fileLoad(){}
-    // metodo da sviluppare -> public booelan fileSave(){}
-
-    //Per test e debug
     public void printBalance(){
         for(int i= 0 ; i<listaB.size();i++){
             System.out.println(i+": "+listaB.get(i).toString());

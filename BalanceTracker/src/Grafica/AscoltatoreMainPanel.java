@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,7 +14,7 @@ import java.util.Iterator;
 
 
 
-public class AscoltatoreMainPanel implements ActionListener, FocusListener {
+public class AscoltatoreMainPanel implements ActionListener {
     private JButton search;
     private JButton add;
     private JButton delete;
@@ -107,15 +105,14 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
                 }
 
             } else if (tmp == modify) {
-
-
+                //da cancellare !!!
             } else if (tmp == delete) {
                 int result = JOptionPane.showConfirmDialog(null, "Sicuro di voler cancellare gli elementi selezionati?", "Conferma", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
                     int[] selectedRows = table.getSelectedRows();
                     deleteSelectedRows(selectedRows);
                 } else {
-                    System.out.println("Utente non ha confermato la cancellazione");
+                    System.out.println("Cancellazione annullata");
                 }
                 //mainPanel.update();
             } else
@@ -124,17 +121,6 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
         }
 
     }
-
-    @Override
-    public void focusGained(FocusEvent e) {
-
-    }
-
-    @Override
-    public void focusLost(FocusEvent e) {
-
-    }
-
 
     /**
      * @param indici -> Array che contiene gli indici selezionati per la cancellazione
@@ -147,13 +133,13 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
 
         //debug
         System.out.println("Elementi selezionati: " + indici.length);
-
         //debug
+        Transazione app;
 
         for (int i = 0; i < indici.length; i++) {
             while (iterator.hasNext()) {
-                Transazione app = iterator.next();
-                if (app.equals(l.get(indici[i]))) {
+                 app = iterator.next();
+                if (app.equals(l.get(i))) {
                     iterator.remove();
                     break;
                 }
@@ -164,8 +150,8 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
 
     private void deleteSelectedRows2(int[] rows){
         Transazione app;
-        for(int i= 0; i< rows.length;i++){
-            app = listaB.getTransazioneAt(rows[i]);
+        for (int row : rows) {
+            app = listaB.getTransazioneAt(row);
             listaB.delTransazione(app);
         }
         mainPanel.update();
@@ -178,8 +164,8 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
 
     /**
      *
-     * @param table
-     * @param input
+     * @param table -> tabella di visualizzazione
+     * @param input -> Stringa di ricerca
      *  ultimaRicerca -> serve come indice per sapere se un elemento è gia stato trovato o meno
      *  inizializzato a -1 [nessun elemento della tabella è stato trovato]
      *  bufferRicerca -> Serve per non escludere a priori elementi nella tabella solo perchè
