@@ -30,7 +30,7 @@ public class Main {
         listaB.addTransazione(t8);
 
 
-        FiltroRicerca filtro = new FiltroRicerca(TipoFiltro.Anno,"2022");
+        FiltroRicerca filtro = new FiltroRicerca();
 
 
         MainPanel mainP = new MainPanel(listaB, filtro);

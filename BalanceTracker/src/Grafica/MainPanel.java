@@ -11,6 +11,7 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MainPanel extends JPanel {
@@ -23,7 +24,6 @@ public class MainPanel extends JPanel {
     private JButton bRicerca;
 
 
-    //QUI
     private JLabel tTotaleComplessivo;
     private JLabel totaleComplessivo;
     private JLabel stringaRicerca;
@@ -32,18 +32,17 @@ public class MainPanel extends JPanel {
     private JTable table;
     private JScrollPane scrollTable;
     private JTextField fieldRicerca;
-
+    private DecimalFormat floatFormat;
 
     //Costruttore -> Forse devo passare anche il filtro attuale al costruttore
     public MainPanel(Bilancio b,FiltroRicerca filtroRicerca){
         this.currentFilter = filtroRicerca;
         this.listaB = b;
-        //debug
         ArrayList<Transazione> l = b.getFilteredList(filtroRicerca);
         for (Transazione transazione : l) {
             System.out.println("Elemento -> " + transazione.toString());
         }
-        //debug
+        floatFormat = new DecimalFormat("#.##");
         update();
         /*
         this.setLayout(new GridLayout(numSezioni,1));
@@ -181,15 +180,17 @@ public class MainPanel extends JPanel {
         for (Transazione transazione : l) {
             System.out.println("Elemento -> " + transazione.toString());
         }
-        String tot = listaB.getFilteredTot(currentFilter) + listaB.getValuta();
+
+        //Formatto TOT in modo che escano solo due decimali dopo la virgola
+        String tot = floatFormat.format(listaB.getFilteredTot(currentFilter)) + listaB.getValuta();
         System.out.println("Totale delle transazioni filtrate -> " + tot);
 
         //debug
 
 
 
-        this.setLayout(new GridLayout(numSezioni,1));
-        JPanel[] sezione = new JPanel[numSezioni]; //forse conviene farlo nel costruttore
+        this.setLayout(new GridLayout(5,1));
+        JPanel[] sezione = new JPanel[numSezioni];
         for(int i = 0; i<numSezioni;i++){
             sezione[i] = new JPanel();
         }
@@ -197,7 +198,7 @@ public class MainPanel extends JPanel {
         //Z1
         tTotaleComplessivo = new JLabel("Totale Complessivo: ");
         totaleComplessivo =  new JLabel("[ "+ tot +" ]");
-        updateSomma(totaleComplessivo,listaB);
+        //updateSomma(totaleComplessivo,tot);
         stringaRicerca = new JLabel("Cerca una transazione: ");
         titoloFiltro = new JLabel("Bilancio:  " + currentFilter.toString());  // <- aggiungere filtro data
         dModel = new MainTableModel(listaB,this,currentFilter);
@@ -233,6 +234,7 @@ public class MainPanel extends JPanel {
         bRicerca.addActionListener(listener);
         bRimozione.addActionListener(listener);
 
+        /*
 
         sezione[0].add(titoloFiltro);
         sezione[1].add(tTotaleComplessivo);
@@ -244,15 +246,30 @@ public class MainPanel extends JPanel {
         sezione[4].add(fieldRicerca);
         sezione[4].add(bRicerca);
 
+        */
+
+        sezione[0].add(titoloFiltro);
+        sezione[1].add(tTotaleComplessivo);
+        sezione[1].add(totaleComplessivo);
+        sezione[2].add(scrollTable);
+        sezione[4].add(fieldRicerca);
+        sezione[4].add(bRicerca);
+        sezione[3].add(bAggiunta);
+        sezione[3].add(bRimozione);
+
+
         for (int i = 0; i<numSezioni;i++){
-            add(sezione[i]);
+            if(i==2){
+                add(scrollTable);
+            }else {
+                add(sezione[i]);
+            }
         }
-        updatePan();
     }
 
 
-    public void updateSomma(JLabel label,Bilancio listaB){
-        label.setText("[ "+ listaB.getFilteredTot(currentFilter) + " ]");
+    public void updateSomma(JLabel label,String tot){
+        label.setText("[ "+ tot + " ]");
     }
     /**
      * Centra gli elementi delle celle della tabella passata in ingresso

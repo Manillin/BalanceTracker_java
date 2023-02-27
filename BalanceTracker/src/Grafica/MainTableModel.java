@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class MainTableModel extends AbstractTableModel {
     private Bilancio listaB;
     private MainPanel p; //riferimento al pannello
@@ -22,6 +23,7 @@ public class MainTableModel extends AbstractTableModel {
 
 
 
+
     //COSTRUTTORE:
     public MainTableModel(Bilancio b, MainPanel p,FiltroRicerca filtro){
         this.listaB = b;
@@ -29,6 +31,7 @@ public class MainTableModel extends AbstractTableModel {
         this.filtro = filtro;
         this.list = b.getFilteredList(this.filtro);
         this.p = p;
+
 
     }
 
@@ -95,7 +98,8 @@ public class MainTableModel extends AbstractTableModel {
                 break;
 
             case 2:
-                input = input.replace('.', ',');
+                input = input.replace(",", ".");
+                input = input.replace("€", "");
                 try{
                     Scanner scanner = new Scanner(input);
                     float newAmmontare = scanner.nextFloat();
@@ -111,8 +115,7 @@ public class MainTableModel extends AbstractTableModel {
             default:
                 System.out.println("Colonna non modificabile");
         }
-        fireTableDataChanged();
-        //MainPanel.updatePan();
+        p.update();
     }
 
     public static String getDateFormat() {

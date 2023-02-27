@@ -49,7 +49,7 @@ public class FiltroRicerca {
         }
 
         else if(fType == TipoFiltro.Periodo){
-            String[] periodo = info.split("<->");
+            String[] periodo = info.split(" <-> ");
             try{
                 inizio = LocalDate.parse(periodo[0],formatter);
                 fine = LocalDate.parse(periodo[1],formatter);

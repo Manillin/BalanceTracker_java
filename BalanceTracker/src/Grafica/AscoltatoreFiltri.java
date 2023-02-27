@@ -74,7 +74,7 @@ public class AscoltatoreFiltri implements ActionListener {
                     System.out.println("Filtro applicato -> " + f.toString());
                 }
                 case "Periodo" -> {
-                    f = new FiltroRicerca((TipoFiltro.Periodo), inizioP.getText() + "<->" + fineP.getText());
+                    f = new FiltroRicerca((TipoFiltro.Periodo), inizioP.getText() + " <-> " + fineP.getText());
                     System.out.println("Filtro applicato -> " + f.toString());
                 }
                 default -> System.out.println("Something went wrong [switch case] - AscoltatoreFiltri.java line 58");

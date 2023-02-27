@@ -1,7 +1,6 @@
 package Grafica;
 
 import Classi.Bilancio;
-import Classi.FiltroRicerca;
 import Classi.Transazione;
 
 import javax.swing.*;
@@ -14,8 +13,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
-import java.util.Scanner;
+
 
 
 public class AscoltatoreMainPanel implements ActionListener, FocusListener {
@@ -31,9 +29,6 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
     private JTextField stringaRicerca;
     private int ultimaRicerca;
     private String bufferRicerca;
-
-
-    //mancano variabili
 
 
     public AscoltatoreMainPanel(JButton search, JButton add, JButton delete, JButton modify,
@@ -83,12 +78,12 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
                     try {
                         cData = LocalDate.parse(data, formatter);
                         error++;
-                        ammontare = ammontare.replace('.', ',');
+                        ammontare = ammontare.replace(",",".");
+                        ammontare = ammontare.replace("€","");
                         float ammontareFloat = Float.parseFloat(ammontare);
                         Transazione t = new Transazione(descrizione, ammontareFloat, cData);
-                        listaB.addTransazione(t); //OCCHIO
+                        listaB.addTransazione(t);
                         System.out.println("Elemento aggiunto alla lista con successo -> "+ t.toString());
-
                     } catch (Exception err) {
                         switch (error) {
                             case 1 ->
@@ -99,7 +94,7 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
                                     System.out.println("Something went wrong - reached illegal default branch in switch case [AscoltatoreMainPanel.java line 80]");
                         }
                     }
-                    System.out.println("<DEBUG> - Totale Complessivo -> " + listaB.getSommaTot() + " euro");
+                    System.out.println("Totale Complessivo -> " + listaB.getSommaTot() + " euro");
                     mainPanel.update();
 
                 }
@@ -122,11 +117,12 @@ public class AscoltatoreMainPanel implements ActionListener, FocusListener {
                 } else {
                     System.out.println("Utente non ha confermato la cancellazione");
                 }
-                mainPanel.updateSomma(totComplessivo, listaB);
+                //mainPanel.update();
             } else
                 System.out.println("Something went wrong" +
-                        " Illegal access to else branch -> [AscoltatoreMainPanel.java line 54]");
+                        " Illegal access to else branch -> [AscoltatoreMainPanel.java]");
         }
+
     }
 
     @Override

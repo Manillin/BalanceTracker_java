@@ -26,7 +26,6 @@ public class EsportatoreCSV extends Esportatore{
             System.out.println("Apertura file fallita [EXP: "+ e.toString() + " ]");
             return false;
         }
-
         try{
             String buff = null;
             ArrayList<Transazione> l = b.getListaB();
@@ -38,11 +37,12 @@ public class EsportatoreCSV extends Esportatore{
                 buff = t.getDescrizione();
                 fout.write(buff + "\n");
             }
+            fout.close();
         }catch (IOException e){
             System.out.println("Scrittura su file in CSV fallita [EXP: "+ e.toString()+ " ]");
             return false;
         }
-        return false;
+        return true;
     }
 
 }

@@ -1,6 +1,10 @@
 package Classi;
 import Interfacce.Salvabile;
 
+import java.awt.*;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,7 +14,7 @@ import java.util.Iterator;
  * Classe che rappresenta l'insieme delle transazioni (struttura dati)
  */
 
-public class Bilancio implements Salvabile, Serializable{
+public class Bilancio implements Salvabile, Serializable, Printable {
     private ArrayList<Transazione> listaB;
     private float sommaTot;
     private String valuta;
@@ -193,6 +197,29 @@ public class Bilancio implements Salvabile, Serializable{
     }
 
 
+    @Override
+    public int print(Graphics g, PageFormat pf, int page) throws PrinterException {
+        int maxBilanciPerPagina = 25;
+        String titolo = "LISTA BILANCI : \n";
 
+        System.out.println("join with page = " + page);
 
+        if ( (page*maxBilanciPerPagina) > listaB.size()-1) {
+            return NO_SUCH_PAGE;
+        }
+
+        int y = (int) pf.getImageableY();
+        System.out.println("x("+pf.getImageableX()+") , y(" + y +") ");
+        y+=g.getFontMetrics().getHeight();
+        System.out.println("x("+pf.getImageableX()+") , y(" + y +") ");
+        g.drawString(titolo , (int) pf.getImageableX(), y);
+        y+=g.getFontMetrics().getHeight();
+        for (int i = page * maxBilanciPerPagina; i < Math.min((page + 1) * maxBilanciPerPagina, listaB.size() ); i++) {      // la condizione del ciclo for permette di non mettere più di 15 bilanci per pagina
+            System.out.println("i = " + i);
+            g.drawString(listaB.get(i).toString(valuta) , (int) pf.getImageableX(), y);
+            System.out.println("x("+pf.getImageableX()+") , y(" + y +") ");
+            y += g.getFontMetrics().getHeight();
+        }
+        return PAGE_EXISTS;
+    }
 }

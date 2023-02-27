@@ -5,6 +5,7 @@ import Classi.Bilancio;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
 
@@ -29,6 +30,11 @@ public class AscoltatoreMenu implements ActionListener {
             case "Filtri" -> {
                 System.out.println("Apertura nuovo frame (per filtri) ");
                 MainFrameFiltri filtri = new MainFrameFiltri("Filtri per ricerca: ", mainPanel);
+            }
+            case "Stampa" -> {
+                System.out.println("Inizio funzione stampa...");
+                stampa();
+                System.out.println("Funzione di stampa terminata...");
             }
             //Altri casi da aggiungere
         }
@@ -89,6 +95,21 @@ public class AscoltatoreMenu implements ActionListener {
     }
 
 
+    private void stampa() {
+        System.out.println("<Debug> : Avvio funzione di stampa (AscoltatoreMenu) ");
+        JOptionPane.showMessageDialog(null, "Apertura pannello anteprima di stampa, attendere...", "Messaggio", JOptionPane.INFORMATION_MESSAGE);
+
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(mainPanel.getListaB());
+
+        if (job.printDialog()) {
+            try {
+                job.print();
+            } catch (PrinterException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
 
