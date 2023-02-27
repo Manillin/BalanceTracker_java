@@ -18,14 +18,23 @@ public class EsportatoreCSV extends Esportatore{
     public boolean esporta(String fileName) {
         String separatore = ",";
         String estensione = ".csv";
-        FileWriter fout = null;
-
+        FileWriter fout = checkFileName(fileName,estensione);
+        /*
         try{
-            fout = new FileWriter(fileName + estensione);
+            int inizio,fine;
+            inizio = fileName.length() - estensione.length();
+            fine = fileName.length();
+            if (!fileName.subSequence(inizio,fine).equals(estensione)){
+                fout = new FileWriter(fileName + estensione);
+            }
+            else {
+                fout = new FileWriter(fileName);
+            }
         }catch(IOException e){
             System.out.println("Apertura file fallita [EXP: "+ e.toString() + " ]");
             return false;
         }
+        */
         try{
             String buff = null;
             ArrayList<Transazione> l = b.getListaB();

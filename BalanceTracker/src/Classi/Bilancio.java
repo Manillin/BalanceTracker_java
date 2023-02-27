@@ -148,6 +148,7 @@ public class Bilancio implements Salvabile, Serializable, Printable {
         fine = fileName.length();
 
         if(!fileName.subSequence(inizio,fine).equals(ext)){
+            System.out.println("Aggiunta estensione al file -> " + ext);
             fileName = fileName+ext;
         }
 

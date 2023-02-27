@@ -1,6 +1,9 @@
 package Grafica;
 
 import Classi.Bilancio;
+import Classi.Esportatore;
+import Classi.EsportatoreCSV;
+import Classi.EsportatoreTXT;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,6 +21,7 @@ public class AscoltatoreMenu implements ActionListener {
     }
 
     //to do in case of input:
+    //uso del polimorfismo nell'esportazione.
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -27,6 +31,8 @@ public class AscoltatoreMenu implements ActionListener {
         switch (input) {
             case "Salva su file" -> salvaSuFile();
             case "Carica da file" -> caricaDaFile();
+            case "Esporta in txt" -> esporta(new EsportatoreTXT(mainPanel.getListaB()));
+            case "Esporta in csv" -> esporta(new EsportatoreCSV(mainPanel.getListaB()));
             case "Filtri" -> {
                 System.out.println("Apertura nuovo frame (per filtri) ");
                 MainFrameFiltri filtri = new MainFrameFiltri("Filtri per ricerca: ", mainPanel);
@@ -36,7 +42,6 @@ public class AscoltatoreMenu implements ActionListener {
                 stampa();
                 System.out.println("Funzione di stampa terminata...");
             }
-            //Altri casi da aggiungere
         }
     }
 
@@ -53,7 +58,7 @@ public class AscoltatoreMenu implements ActionListener {
                 if (res == JOptionPane.YES_OPTION) {
                     b = mainPanel.getListaB();
                     System.out.println("File scelto -> " + file.toString());
-                    if (b.salvaSuFile(file.toString() + ".bin", ".bin")) { //forzo estensione ".bin"
+                    if (b.salvaSuFile(file.toString(), ".bin")) {  //.bin formato scelto per il salvataggio
                         JOptionPane.showMessageDialog(null, "Salvataggio eseguito correttamente", "Avviso", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, "Errore nel salvataggio su file", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -96,7 +101,7 @@ public class AscoltatoreMenu implements ActionListener {
 
 
     private void stampa() {
-        System.out.println("<Debug> : Avvio funzione di stampa (AscoltatoreMenu) ");
+        System.out.println("Avvio funzione di stampa (AscoltatoreMenu) ");
         JOptionPane.showMessageDialog(null, "Apertura pannello anteprima di stampa, attendere...", "Messaggio", JOptionPane.INFORMATION_MESSAGE);
 
         PrinterJob job = PrinterJob.getPrinterJob();
@@ -113,15 +118,36 @@ public class AscoltatoreMenu implements ActionListener {
 
 
 
+    private void esporta(Esportatore e){
+        System.out.println("Esporta");
+        JFileChooser chooser = new JFileChooser();
+        int resp = chooser.showSaveDialog(null);
+        //
+        if(resp == JFileChooser.APPROVE_OPTION){
+            File file = chooser.getSelectedFile();
+            if(file.exists()){
+                int res = JOptionPane.showConfirmDialog(null,"Vuoi sovrascrivere il file ? ","Conferma",JOptionPane.YES_NO_CANCEL_OPTION);
+                if(res == JOptionPane.YES_OPTION){
+                    if(e.esporta(file.toString())){
+                        JOptionPane.showMessageDialog(null,"Esportazione eseguita con successo","Avviso",JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Esportazione fallita","Avviso",JOptionPane.ERROR_MESSAGE);
 
+                    }
+                } else if(res == JOptionPane.NO_OPTION){
+                    System.out.println("Esportazione abortita");
+                }
+                else{
+                    System.out.println("Pop-up chiuso da user");
+                }
+            }else{
+                if(e.esporta(file.toString())){
+                    JOptionPane.showMessageDialog(null,"Esportazione eseguita con successo","Avviso",JOptionPane.INFORMATION_MESSAGE);
 
-
-
-
-
-
-
-
-
-
+                }else{
+                    JOptionPane.showMessageDialog(null,"Esportazione fallita","Avviso",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
 }
