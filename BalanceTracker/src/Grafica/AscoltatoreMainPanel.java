@@ -131,19 +131,12 @@ public class AscoltatoreMainPanel implements ActionListener {
         ArrayList<Transazione> l = listaB.getListaB();
         Iterator<Transazione> iterator = l.iterator();
 
-        //debug
         System.out.println("Elementi selezionati: " + indici.length);
-        //debug
-        Transazione app;
 
-        for (int i = 0; i < indici.length; i++) {
-            while (iterator.hasNext()) {
-                 app = iterator.next();
-                if (app.equals(l.get(i))) {
-                    iterator.remove();
-                    break;
-                }
-            }
+        int cont=0;
+        for(int i=0 ; i<indici.length ; i++) {
+            l.remove(indici[i]-cont);
+            cont++;
         }
         mainPanel.update();
     }
