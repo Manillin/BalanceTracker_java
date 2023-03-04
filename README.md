@@ -7,5 +7,7 @@ MiniProgetto per gestire un bilancio
 - Salvataggio e Caricamento bilancio da file [check]
 - Esportazione in diversi formati [check]
 - Uso dell'incapsulamento , ereditarietà e polimorfismo [check]
-- Documentazione JavaDoc [ da sistemare ]
-- Fix bugs [ da sistemare ]
+- Fix bugs [check]
+
+Missing:
+Documentazione approfondita in JavaDoc [ due ]
