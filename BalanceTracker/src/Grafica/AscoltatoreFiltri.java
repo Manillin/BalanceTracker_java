@@ -10,26 +10,26 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 /**
+ * Classe che implementa l'ascoltatore dei filtri e permette di applicarli
  * @author Christian von Waldorff
- * Classe che implementa l'ascoltatore e permette di applicare i filtri di ricerca
  */
 
 
 public class AscoltatoreFiltri implements ActionListener {
-    private JFrame frame;
-    private MainPanel mainPanel;
-    private JComboBox<String> comboBox;
-    private JComboBox<String> mese;
-    private JComboBox<String> settimana;
-    private JPanel sezione;
-    private JTextField giorno;
-    private JTextField anno;
+    private final JFrame frame;
+    private final MainPanel mainPanel;
+    private final JComboBox<String> comboBox;
+    private final JComboBox<String> mese;
+    private final JComboBox<String> settimana;
+    private final JPanel sezione;
+    private final JTextField giorno;
+    private final JTextField anno;
     private String sceltaAttuale;
-    private JTextField inizioP;
-    private JTextField fineP;
-    private JLabel periodo;
-    private JPanel periodoPanel;
-    private Bilancio b;
+    private final JTextField inizioP;
+    private final JTextField fineP;
+    private final JLabel periodo;
+    private final JPanel periodoPanel;
+    private final Bilancio b;
 
 
     public AscoltatoreFiltri(JFrame f,MainPanel p, JComboBox<String> cb,JComboBox<String> settimana,JComboBox<String> mese, JPanel sez,
@@ -51,6 +51,10 @@ public class AscoltatoreFiltri implements ActionListener {
     }
 
 
+    /**
+     * Metodo che mi permette di eseguire codice in base all'evento che si verifica
+     * @param e evento che deve essere processato
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         Object temp = e.getSource();
@@ -60,22 +64,22 @@ public class AscoltatoreFiltri implements ActionListener {
             switch (sceltaAttuale) {
                 case "Giorno" ->{
                     f = new FiltroRicerca(TipoFiltro.Giorno, giorno.getText());
-                    System.out.println("Filtro applicato -> " + f.toString());}
+                    System.out.println("Filtro applicato -> " + f);}
                 case "Settimana" -> {
                     f = new FiltroRicerca(TipoFiltro.Settimana, (String) settimana.getSelectedItem());
-                    System.out.println("Filtro applicato -> " + f.toString());
+                    System.out.println("Filtro applicato -> " + f);
                 }
                 case "Mese" -> {
                     f = new FiltroRicerca(TipoFiltro.Mese, monthToInt((String) mese.getSelectedItem()));
-                    System.out.println("Filtro applicato -> " + f.toString());
+                    System.out.println("Filtro applicato -> " + f);
                 }
                 case "Anno" -> {
                     f = new FiltroRicerca(TipoFiltro.Anno, anno.getText());
-                    System.out.println("Filtro applicato -> " + f.toString());
+                    System.out.println("Filtro applicato -> " + f);
                 }
                 case "Periodo" -> {
                     f = new FiltroRicerca((TipoFiltro.Periodo), inizioP.getText() + " <-> " + fineP.getText());
-                    System.out.println("Filtro applicato -> " + f.toString());
+                    System.out.println("Filtro applicato -> " + f);
                 }
                 default -> System.out.println("Something went wrong [switch case] - AscoltatoreFiltri.java line 58");
             }
@@ -104,8 +108,6 @@ public class AscoltatoreFiltri implements ActionListener {
                     default ->
                             System.out.println("Something went wrong [switch case] - AscoltatoreFiltri.java line 89");
                 }
-                //sezione.setVisible(false);
-                //sezione.setVisible(true);
                 frame.pack();
             }
         }
@@ -116,6 +118,7 @@ public class AscoltatoreFiltri implements ActionListener {
         sezione.removeAll();
     }
 
+    //Ritorna in Stringa il numero intero che corrisponde al mese scelto (sempre sotto forma di stringa)
     private String monthToInt(String mese) {
         String t = mese.toLowerCase();
         return switch (t) {

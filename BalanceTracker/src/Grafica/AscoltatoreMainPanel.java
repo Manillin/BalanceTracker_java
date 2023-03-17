@@ -13,22 +13,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-
+/**
+ * Classe che implementa l'ascoltatore in grado di reagire a interazioni con il pannello principale
+ * @author Christian von Waldorff
+ *
+ */
 public class AscoltatoreMainPanel implements ActionListener {
-    private JButton search;
-    private JButton add;
-    private JButton delete;
-    private JButton modify;
-    private Bilancio listaB;
-    private MainPanel mainPanel;
-    private MainTableModel model;
-    private JLabel totComplessivo;
-    private JTable table;
-    private JTextField stringaRicerca;
+    private final JButton search;
+    private final JButton add;
+    private final JButton delete;
+    private final JButton modify;
+    private final Bilancio listaB;
+    private final MainPanel mainPanel;
+    private final JTable table;
+    private final JTextField stringaRicerca;
     private int ultimaRicerca;
     private String bufferRicerca;
 
-
+    //Costruttore
     public AscoltatoreMainPanel(JButton search, JButton add, JButton delete, JButton modify,
                                 Bilancio listaB, MainPanel mainPanel, MainTableModel model, JLabel totComplessivo,
                                 JTable table, JTextField stringaRicerca) {
@@ -38,16 +40,17 @@ public class AscoltatoreMainPanel implements ActionListener {
         this.delete = delete;
         this.listaB = listaB;
         this.mainPanel = mainPanel;
-        this.model = model;
-        this.totComplessivo = totComplessivo;
         this.table = table;
         this.stringaRicerca = stringaRicerca;
         this.ultimaRicerca = -1;
         this.bufferRicerca = "";
-
-        //manca qualcosa
     }
 
+
+    /**
+     * Metodo che permette di reagire ad eventi sul pannello principale
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         Object tmp = e.getSource();
@@ -81,7 +84,7 @@ public class AscoltatoreMainPanel implements ActionListener {
                         float ammontareFloat = Float.parseFloat(ammontare);
                         Transazione t = new Transazione(descrizione, ammontareFloat, cData);
                         listaB.addTransazione(t);
-                        System.out.println("Elemento aggiunto alla lista con successo -> "+ t.toString());
+                        System.out.println("Elemento aggiunto alla lista con successo -> "+ t);
                     } catch (Exception err) {
                         switch (error) {
                             case 1 ->
@@ -104,8 +107,6 @@ public class AscoltatoreMainPanel implements ActionListener {
                     stringaRicerca.setText("Nessun Elemento trovato");
                 }
 
-            } else if (tmp == modify) {
-                //da cancellare !!!
             } else if (tmp == delete) {
                 int result = JOptionPane.showConfirmDialog(null, "Sicuro di voler cancellare gli elementi selezionati?", "Conferma", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
@@ -114,7 +115,6 @@ public class AscoltatoreMainPanel implements ActionListener {
                 } else {
                     System.out.println("Cancellazione annullata");
                 }
-                //mainPanel.update();
             } else
                 System.out.println("Something went wrong" +
                         " Illegal access to else branch -> [AscoltatoreMainPanel.java]");
@@ -123,35 +123,33 @@ public class AscoltatoreMainPanel implements ActionListener {
     }
 
     /**
+     * Metodo per cancellare un singolo elemento o piu elementi dal bilancio
      * @param indici -> Array che contiene gli indici selezionati per la cancellazione
-     *               iterator -> Iteratore per eliminare elementi ed evitare errori di OutOfBound Index
      */
 
     private void deleteSelectedRows(int[] indici) {
         ArrayList<Transazione> l = listaB.getListaB();
-        Iterator<Transazione> iterator = l.iterator();
 
+
+        //debug
         System.out.println("Elementi selezionati: " + indici.length);
 
         int cont=0;
+        for (int j : indici) {
+            l.remove(j - cont);
+            cont++;
+        }
+        mainPanel.update();
+
+
+        /*
+        Vecchio ciclo for
         for(int i=0 ; i<indici.length ; i++) {
             l.remove(indici[i]-cont);
             cont++;
         }
-        mainPanel.update();
+         */
     }
-
-    private void deleteSelectedRows2(int[] rows){
-        Transazione app;
-        for (int row : rows) {
-            app = listaB.getTransazioneAt(row);
-            listaB.delTransazione(app);
-        }
-        mainPanel.update();
-    }
-
-
-
 
 
 

@@ -3,6 +3,11 @@ package Classi;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Esportatore nel formato TXT
+ * @author Christian von Waldorff
+ */
+
 public class EsportatoreTXT extends Esportatore{
 
     public EsportatoreTXT(Bilancio b){super(b);}

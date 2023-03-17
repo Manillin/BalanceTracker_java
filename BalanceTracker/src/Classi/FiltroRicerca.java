@@ -8,6 +8,12 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 
+
+/**
+ *Classe che implementa la logistica a periodi neccessaria per applicare i filtri di ricerca per le transazioni
+ * @author Christian von Waldorff
+ */
+
 public class FiltroRicerca {
     private TipoFiltro fType;
     private String info;
@@ -32,7 +38,6 @@ public class FiltroRicerca {
     //logica a periodi -> PeriodoIniziale to PeriodoFinale
     public void genRange(){
         LocalDate now = LocalDate.now();
-        //int info;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(MainTableModel.getDateFormat());
         LocalDate date;
         Boolean error = false;
@@ -71,8 +76,6 @@ public class FiltroRicerca {
             }
         }
 
-        //entro solo se non ho errori -> non devo fare controlli qui
-
         if(!error &&fType == TipoFiltro.Anno){ //infoInt contiene anno
             inizio = LocalDate.of(infoInt,1,1); //primo gennaio current year
             fine = LocalDate.of(infoInt,12,31); //31 dicembre current year
@@ -107,7 +110,7 @@ public class FiltroRicerca {
                 }
             }
         }
-        //se ci sono stati errori si mette il filtro default [per anno]
+        //In caso di errori si mette come filtro di default il filtro per anno
         if(error){
             this.fType = TipoFiltro.Anno;
             info = Integer.toString(LocalDate.now().getYear());
@@ -115,24 +118,10 @@ public class FiltroRicerca {
         }
     }
 
-
-    //Setter e Getter per i periodi [inizio e fine]
-    public LocalDate getInizio() {
-        return inizio;
-    }
-
-    public void setInizio(LocalDate inizio) {
-        this.inizio = inizio;
-    }
-
-    public LocalDate getFine() {
-        return fine;
-    }
-
-    public void setFine(LocalDate fine) {
-        this.fine = fine;
-    }
-
+    /**
+     * Metodo che trasforma in stringa il mio filtro
+     * @return Filtro trasformato in stringa
+     */
     @Override
     public String toString(){
         if(fType == TipoFiltro.Anno){

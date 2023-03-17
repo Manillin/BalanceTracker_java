@@ -3,15 +3,14 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
+ * Classe che rappresenta una singola transazione -> compone il bilancio
  * @author Christian von Waldorff
- * Classe che rappresenta una singola transazione (entrata/uscita)
  */
 
 public class Transazione implements Comparable, Serializable {
     private LocalDate data;
     private String descrizione;
     private float ammontare;
-    private String valuta;
 
     /**
      * @param descrizione -> Descrizione della transazione
@@ -23,7 +22,6 @@ public class Transazione implements Comparable, Serializable {
         this.data = data;
         this.descrizione = descrizione;
         this.ammontare = ammontare;
-        valuta = "€";
     }
 
     /**

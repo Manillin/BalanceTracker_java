@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 //import org.jopendocument.dom.spreadsheet.SpreadSheet;
 /*
-
+-> Mancano le librerie esterne
 
  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _NON DA IMPLEMENTARE_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 

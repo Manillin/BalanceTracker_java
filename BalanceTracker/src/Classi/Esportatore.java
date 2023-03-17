@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Classe per esportare
+ * Classe per esportare in diversi formati
+ * @author Christian von Waldorff
  */
 
 public abstract class Esportatore {

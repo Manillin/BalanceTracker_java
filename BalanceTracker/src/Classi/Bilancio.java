@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 /**
  * @author Christian von Waldorff
- * Classe che rappresenta l'insieme delle transazioni (struttura dati)
+ * Classe che rappresenta l'insieme delle transazioni (struttura dati) con le sue primitive
  */
 
 public class Bilancio implements Salvabile, Serializable, Printable {
@@ -20,14 +20,16 @@ public class Bilancio implements Salvabile, Serializable, Printable {
     private String valuta;
 
 
-    //Inizializzazione del bilancio
+    /**
+     * Costruttori con e senza parametri per la creazione di un bilancio
+     */
     public Bilancio(){
         listaB = new ArrayList<Transazione>();
         sommaTot = 0F;
         valuta = "€";
     }
 
-    //Caricamento di un bilancio
+
     public Bilancio(ArrayList<Transazione> l, float somma ){
         this.listaB = l;
         this.sommaTot = somma;
@@ -54,10 +56,6 @@ public class Bilancio implements Salvabile, Serializable, Printable {
         return l;
     }
 
-    public void setLista(ArrayList<Transazione> l){
-        this.listaB = l;
-    }
-
     public float getSommaTot() {
         sommaTot = 0;
         for (Transazione transazione : listaB) {
@@ -76,34 +74,19 @@ public class Bilancio implements Salvabile, Serializable, Printable {
     }
 
 
-    public void setSommaTot(float sommaTot) {
-        this.sommaTot = sommaTot;
-    }
-
-    //Ritorna elemento all'indice 'i' dentro la lista di trasazioni
+    //Ritorna elemento all'indice 'i' dentro la lista di transazioni
     public Transazione getTransazioneAt(int index){
         return listaB.get(index);
     }
 
     /**
-     *
+     * Aggiunge una transazione all'arraylist
      * @param t -> Nuova transizione da registrare
      *
      */
     public void addTransazione(Transazione t) {
         listaB.add(t);
         sommaTot += t.getAmmontare();
-    }
-
-    /**
-     *
-     * @param t -> Transizione da cancellare
-     *
-     */
-
-    public void delTransazionee(Transazione t){
-        listaB.remove(t);
-
     }
 
 
@@ -118,20 +101,14 @@ public class Bilancio implements Salvabile, Serializable, Printable {
         }
     }
 
-    public void delTransazione2(Transazione t){
-        listaB.removeIf(app -> app.equals(t));
-    }
 
-
+    /*
+    Classe per debugging
+     */
     public void printBalance(){
         for(int i= 0 ; i<listaB.size();i++){
             System.out.println(i+": "+listaB.get(i).toString());
         }
-    }
-
-
-    public void setListaB(ArrayList<Transazione> listaB) {
-        this.listaB = listaB;
     }
 
     public String getValuta(){
@@ -139,8 +116,13 @@ public class Bilancio implements Salvabile, Serializable, Printable {
     }
 
 
-
-
+    /**
+     * Metodo che permette di scrivere e salvare su un file il bilancio attualmente in uso
+     *
+     * @param fileName -> Nome del file dove si vuole salvare il bilancio
+     * @param ext -> Estensione con cui il file verrà salvato
+     * @return status
+     */
     public boolean salvaSuFile(String fileName, String ext){
         FileOutputStream f = null;
 
@@ -176,6 +158,12 @@ public class Bilancio implements Salvabile, Serializable, Printable {
         return true;
     }
 
+
+    /**
+     * Metodo che legge e carica da un file un bilancio
+     * @param fileName -> Nome del file dal quale si vuole caricare il bilancio
+     * @return status
+     */
     public boolean caricaDaFile(String fileName){
         System.out.println("Inizio caricamento da file...");
         System.out.println("Lettura dati: ");
@@ -199,6 +187,16 @@ public class Bilancio implements Salvabile, Serializable, Printable {
         return true;
     }
 
+
+    /**
+     * Classe che permette la stampa fisica di un bilancio -> estende printable
+     *
+     * @param g il contesto in cui viene disegnata la pagina
+     * @param pf  le dimensioni e l'orientamento della pagina che viene disegnata
+     * @param page  l'indice in base zero della pagina da disegnare
+     * @return ritorna un intero
+     * @throws PrinterException Nel caso la stampa fallisca
+     */
 
     @Override
     public int print(Graphics g, PageFormat pf, int page) throws PrinterException {

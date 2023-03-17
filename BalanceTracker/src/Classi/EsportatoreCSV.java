@@ -2,7 +2,11 @@ package Classi;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+
+/**
+ * Esportatore nel formato CSV
+ * @author Christian von Waldorff
+ */
 
 public class EsportatoreCSV extends Esportatore{
 
