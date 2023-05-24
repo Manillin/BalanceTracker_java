@@ -10,11 +10,11 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 
 /**
- * Classe che implementa l'ascoltatore in grado di reagire a interazioni con il pannello principale
+ * Classe che implementa l'ascoltatore in grado di reagire a interazioni con il
+ * pannello principale
+ * 
  * @author Christian von Waldorff
  *
  */
@@ -22,7 +22,6 @@ public class AscoltatoreMainPanel implements ActionListener {
     private final JButton search;
     private final JButton add;
     private final JButton delete;
-    private final JButton modify;
     private final Bilancio listaB;
     private final MainPanel mainPanel;
     private final JTable table;
@@ -30,13 +29,12 @@ public class AscoltatoreMainPanel implements ActionListener {
     private int ultimaRicerca;
     private String bufferRicerca;
 
-    //Costruttore
+    // Costruttore
     public AscoltatoreMainPanel(JButton search, JButton add, JButton delete, JButton modify,
-                                Bilancio listaB, MainPanel mainPanel, MainTableModel model, JLabel totComplessivo,
-                                JTable table, JTextField stringaRicerca) {
+            Bilancio listaB, MainPanel mainPanel, MainTableModel model, JLabel totComplessivo,
+            JTable table, JTextField stringaRicerca) {
         this.search = search;
         this.add = add;
-        this.modify = modify;
         this.delete = delete;
         this.listaB = listaB;
         this.mainPanel = mainPanel;
@@ -46,27 +44,29 @@ public class AscoltatoreMainPanel implements ActionListener {
         this.bufferRicerca = "";
     }
 
-
     /**
      * Metodo che permette di reagire ad eventi sul pannello principale
+     * 
      * @param e the event to be processed
      */
     @Override
     public void actionPerformed(ActionEvent e) {
         Object tmp = e.getSource();
-        //se ho cliccato un bottone
+        // se ho cliccato un bottone
         if (tmp instanceof JButton) {
             if (tmp == add) {
                 String data = null, ammontare = null, descrizione = null;
                 Boolean datiInseriti = false;
                 int error = 1;
-                LocalDate cData = LocalDate.now(); //serve come data default
+                LocalDate cData = LocalDate.now(); // serve come data default
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(MainTableModel.getDateFormat());
-                data = JOptionPane.showInputDialog("Data [ Formato: " + MainTableModel.getDateFormat() + " ]", cData.format(formatter));
+                data = JOptionPane.showInputDialog("Data [ Formato: " + MainTableModel.getDateFormat() + " ]",
+                        cData.format(formatter));
 
-                //Controlli servono per non fare aprire pannelli nel caso l'utente ne chiuda uno e non venga salvato nulla
-                //nelle corrispettive variabili
+                // Controlli servono per non fare aprire pannelli nel caso l'utente ne chiuda
+                // uno e non venga salvato nulla
+                // nelle corrispettive variabili
                 if (data != null) {
                     ammontare = JOptionPane.showInputDialog("Importo: ");
                 }
@@ -79,20 +79,25 @@ public class AscoltatoreMainPanel implements ActionListener {
                     try {
                         cData = LocalDate.parse(data, formatter);
                         error++;
-                        ammontare = ammontare.replace(",",".");
-                        ammontare = ammontare.replace("€","");
+                        ammontare = ammontare.replace(",", ".");
+                        ammontare = ammontare.replace("€", "");
                         float ammontareFloat = Float.parseFloat(ammontare);
                         Transazione t = new Transazione(descrizione, ammontareFloat, cData);
                         listaB.addTransazione(t);
-                        System.out.println("Elemento aggiunto alla lista con successo -> "+ t);
+                        System.out.println("Elemento aggiunto alla lista con successo -> " + t);
                     } catch (Exception err) {
                         switch (error) {
                             case 1 ->
-                                    JOptionPane.showMessageDialog(null, "Formato data errato [Formato " + MainTableModel.getDateFormat() + " ]", "Attenzione", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null,
+                                        "Formato data errato [Formato " + MainTableModel.getDateFormat() + " ]",
+                                        "Attenzione", JOptionPane.ERROR_MESSAGE);
                             case 2 ->
-                                    JOptionPane.showMessageDialog(null, "Importo in formato invalido - puoi usare solo numeri e virgole", "Attenzione", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null,
+                                        "Importo in formato invalido - puoi usare solo numeri e virgole", "Attenzione",
+                                        JOptionPane.ERROR_MESSAGE);
                             default ->
-                                    System.out.println("Something went wrong - reached illegal default branch in switch case [AscoltatoreMainPanel.java line 80]");
+                                System.out.println(
+                                        "Something went wrong - reached illegal default branch in switch case [AscoltatoreMainPanel.java line 80]");
                         }
                     }
                     System.out.println("Totale Complessivo -> " + listaB.getSommaTot() + " euro");
@@ -108,7 +113,8 @@ public class AscoltatoreMainPanel implements ActionListener {
                 }
 
             } else if (tmp == delete) {
-                int result = JOptionPane.showConfirmDialog(null, "Sicuro di voler cancellare gli elementi selezionati?", "Conferma", JOptionPane.YES_NO_OPTION);
+                int result = JOptionPane.showConfirmDialog(null, "Sicuro di voler cancellare gli elementi selezionati?",
+                        "Conferma", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
                     int[] selectedRows = table.getSelectedRows();
                     deleteSelectedRows(selectedRows);
@@ -124,59 +130,61 @@ public class AscoltatoreMainPanel implements ActionListener {
 
     /**
      * Metodo per cancellare un singolo elemento o piu elementi dal bilancio
-     * @param indici -> Array che contiene gli indici selezionati per la cancellazione
+     * 
+     * @param indici -> Array che contiene gli indici selezionati per la
+     *               cancellazione
      */
 
     private void deleteSelectedRows(int[] indici) {
         ArrayList<Transazione> l = listaB.getListaB();
 
-
-        //debug
+        // debug
         System.out.println("Elementi selezionati: " + indici.length);
 
-        int cont=0;
+        int cont = 0;
         for (int j : indici) {
             l.remove(j - cont);
             cont++;
         }
         mainPanel.update();
 
-
         /*
-        Vecchio ciclo for
-        for(int i=0 ; i<indici.length ; i++) {
-            l.remove(indici[i]-cont);
-            cont++;
-        }
+         * Vecchio ciclo for
+         * for(int i=0 ; i<indici.length ; i++) {
+         * l.remove(indici[i]-cont);
+         * cont++;
+         * }
          */
     }
-
-
 
     /**
      *
      * @param table -> tabella di visualizzazione
      * @param input -> Stringa di ricerca
-     *  ultimaRicerca -> serve come indice per sapere se un elemento è gia stato trovato o meno
-     *  inizializzato a -1 [nessun elemento della tabella è stato trovato]
-     *  bufferRicerca -> Serve per non escludere a priori elementi nella tabella solo perchè
-     *  precedenti a quello che si sta cercando attualmente
+     *              ultimaRicerca -> serve come indice per sapere se un elemento è
+     *              gia stato trovato o meno
+     *              inizializzato a -1 [nessun elemento della tabella è stato
+     *              trovato]
+     *              bufferRicerca -> Serve per non escludere a priori elementi nella
+     *              tabella solo perchè
+     *              precedenti a quello che si sta cercando attualmente
      * @return true se trova elemento false altrimenti
      */
-    public boolean cercaTransizione(JTable table, String input){
-        ArrayList<Transazione> l = listaB.getListaB(); //per ottenere lista filtrata
-        if(bufferRicerca.equals("")){
+    public boolean cercaTransizione(JTable table, String input) {
+        ArrayList<Transazione> l = listaB.getListaB(); // per ottenere lista filtrata
+        if (bufferRicerca.equals("")) {
             bufferRicerca = input;
         }
-        if(!bufferRicerca.equals(input)){
+        if (!bufferRicerca.equals(input)) {
             ultimaRicerca = -1;
         }
-        for(int i=0; i<l.size();i++){
-            if(l.get(i).getDescrizione().contains(input)  && (i > ultimaRicerca) ){
-                if(ultimaRicerca == -1){
-                    JOptionPane.showMessageDialog(null,"Trovato un elemento che rispetti il pattern","Avviso",JOptionPane.INFORMATION_MESSAGE);
+        for (int i = 0; i < l.size(); i++) {
+            if (l.get(i).getDescrizione().contains(input) && (i > ultimaRicerca)) {
+                if (ultimaRicerca == -1) {
+                    JOptionPane.showMessageDialog(null, "Trovato un elemento che rispetti il pattern", "Avviso",
+                            JOptionPane.INFORMATION_MESSAGE);
                 }
-                table.setRowSelectionInterval(i,i);
+                table.setRowSelectionInterval(i, i);
                 ultimaRicerca = i;
                 bufferRicerca = input;
                 return true;
