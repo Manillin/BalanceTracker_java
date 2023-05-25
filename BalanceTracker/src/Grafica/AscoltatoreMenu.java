@@ -1,9 +1,6 @@
 package Grafica;
 
-import Classi.Bilancio;
-import Classi.Esportatore;
-import Classi.EsportatoreCSV;
-import Classi.EsportatoreTXT;
+import Classi.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
+import java.util.ArrayList;
 
 public class AscoltatoreMenu implements ActionListener {
     private MainPanel mainPanel;
