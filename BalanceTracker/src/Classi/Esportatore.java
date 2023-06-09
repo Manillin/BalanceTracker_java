@@ -1,6 +1,5 @@
 package Classi;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,10 +22,9 @@ public abstract class Esportatore {
      */
     public abstract boolean esporta(String fileName);
 
-
     /**
-     * Funzione che aggiunge l'estensione di file desiderata se non già presente
-     * nel file scelto. Se esiste già non aggiunge l'estensione.
+     * Metodo che aggiunge l'estensione di file desiderata se non già presente
+     * nel file scelto. Se pre-esistente non aggiunge l'estensione.
      * @param fileName -> Nome del file
      * @param ext -> Estensione per salvare file
      * @return -> Nuovo file writer o null in caso di fallimento

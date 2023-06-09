@@ -15,11 +15,11 @@ import java.time.format.DateTimeFormatter;
  */
 
 public class FiltroRicerca {
-    private TipoFiltro fType;
-    private String info;
-    private int infoInt;
-    private LocalDate inizio;
-    private LocalDate fine;
+    private TipoFiltro fType;  //tipo del filtro scelto (giorno,mese,anno,...)
+    private String info;   //Stringa che rappresenta l'anno corrente
+    private int infoInt;   //Anno corrente come numero intero
+    private LocalDate inizio; //data periodo iniziale
+    private LocalDate fine;  //data periodo finale
 
     //Costruttore con parametri
     public FiltroRicerca(TipoFiltro filtro, String info){
@@ -35,16 +35,19 @@ public class FiltroRicerca {
         genRange();
     }
 
-    //logica a periodi -> PeriodoIniziale to PeriodoFinale
+    /**
+     * Metodo che implementa la logica a periodi
+     * PeriodoIniziale to PeriodoFinale
+     */
     public void genRange(){
         LocalDate now = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(MainTableModel.getDateFormat());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(MainTableModel.getDateFormat()); //Formatter del tipo 'Date'
         LocalDate date;
-        Boolean error = false;
+        boolean error = false;
 
         if(fType == TipoFiltro.Giorno){
             try{
-                //controlla che date sia nel formato giusto, altrimenti solleva eccezione
+                //Trasforma in 'Date' la stringa contenuta in info
                 date = LocalDate.parse(info,formatter);
                 inizio = fine = date; //giorno singolo su cui effettuare la ricerca
             }catch(Exception e){
@@ -54,8 +57,10 @@ public class FiltroRicerca {
         }
 
         else if(fType == TipoFiltro.Periodo){
+            //Divide una stringa in due secondo il separatore convenzionale ( '<->' )
             String[] periodo = info.split(" <-> ");
             try{
+                //Trasforma le stringhe periodo[] in tipo Date
                 inizio = LocalDate.parse(periodo[0],formatter);
                 fine = LocalDate.parse(periodo[1],formatter);
 
@@ -66,9 +71,10 @@ public class FiltroRicerca {
 
         }
 
-        //Entro se mi serve l'info come intero, cioè quando non filtro per periodo o giorno.
+        //Entro se il filtro è per anno, mese o settimana (intero).
         else{
             try{
+                //trasformo stringa info in un intero
                 infoInt = Integer.parseInt(info);
             }catch (Exception e){
                 JOptionPane.showMessageDialog(null,"Formato anno sbagliato [ Formato: YYYY ]", "Attenzione", JOptionPane.ERROR_MESSAGE);
@@ -76,7 +82,14 @@ public class FiltroRicerca {
             }
         }
 
-        if(!error &&fType == TipoFiltro.Anno){ //infoInt contiene anno
+        //In caso di errori si mette come filtro di default il filtro per anno e si richiama la funzione
+        if(error){
+            this.fType = TipoFiltro.Anno;
+            info = Integer.toString(LocalDate.now().getYear());
+            genRange();
+        }
+
+        if(fType == TipoFiltro.Anno){ //infoInt contiene l'anno
             inizio = LocalDate.of(infoInt,1,1); //primo gennaio current year
             fine = LocalDate.of(infoInt,12,31); //31 dicembre current year
         }
@@ -85,7 +98,7 @@ public class FiltroRicerca {
             inizio = LocalDate.of(now.getYear(), infoInt,1); //primo giorno di un dato mese
             YearMonth mese = YearMonth.of(now.getYear(),infoInt);
             int giorniMese = mese.lengthOfMonth();
-            fine = LocalDate.of(now.getYear(), infoInt,giorniMese);
+            fine = LocalDate.of(now.getYear(), infoInt,giorniMese); //ultimo giorno di tale mese
         }
 
         else if(fType == TipoFiltro.Settimana){ //info int contiene il numero dell settimana (del mese)
@@ -106,16 +119,11 @@ public class FiltroRicerca {
                     inizio = LocalDate.of(now.getYear(), now.getMonth(), 25);
                     YearMonth mese = YearMonth.of(now.getYear(), now.getMonth());
                     int giorniMese = mese.lengthOfMonth();
-                    fine = LocalDate.of(now.getYear(), now.getMonth(), giorniMese);
+                    fine = LocalDate.of(now.getYear(), now.getMonth(), giorniMese); //ultimo giorno del mese considerato
                 }
             }
         }
-        //In caso di errori si mette come filtro di default il filtro per anno
-        if(error){
-            this.fType = TipoFiltro.Anno;
-            info = Integer.toString(LocalDate.now().getYear());
-            genRange();
-        }
+
     }
 
     /**

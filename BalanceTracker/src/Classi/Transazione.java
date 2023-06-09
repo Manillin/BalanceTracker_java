@@ -3,8 +3,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- * Classe che rappresenta una singola transazione -> compone il bilancio
  * @author Christian von Waldorff
+ * Classe che rappresenta una singola transazione -> compone il bilancio
+ *
  */
 
 public class Transazione implements Comparable, Serializable {
@@ -53,7 +54,7 @@ public class Transazione implements Comparable, Serializable {
     }
 
 
-    //Have a look here - forse @deprecated
+
     @Override
     public int compareTo(Object obj) {
         Transazione t2 = (Transazione) obj;

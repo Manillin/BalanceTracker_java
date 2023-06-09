@@ -4,23 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrameFiltri extends JFrame {
-    private String titolo;
-    private final int numSezioni = 4;
-    private MainPanel mainPanel;
-
 
 
     public MainFrameFiltri(String titolo, MainPanel mainPanel) throws HeadlessException {
         super(titolo);
-        this.titolo = titolo;
-        this.mainPanel = mainPanel;
         String formatData = "dd/MM/yyyy";
 
         //Creazione pannello e aggiunta elementi:
         JPanel panel = new JPanel(); //pannello display per filtri e opzioni
+        int numSezioni = 4;
         panel.setLayout(new GridLayout(numSezioni,1));
         JPanel[] sezione = new JPanel[numSezioni];
-        for(int i =0; i<numSezioni;i++){ sezione[i] = new JPanel();};
+        for(int i = 0; i< numSezioni; i++){ sezione[i] = new JPanel();};
         //titolo
         JLabel titoloFinestra = new JLabel("Filtri: ");
         JButton confermaScelta = new JButton("Apply");
@@ -84,7 +79,7 @@ public class MainFrameFiltri extends JFrame {
 
 
         //inserimento sezioni nel panel
-        for(int i = 0; i<numSezioni;i++){panel.add(sezione[i]);}
+        for(int i = 0; i< numSezioni; i++){panel.add(sezione[i]);}
         //inserimento panel nel frame
         this.add(panel);
         this.pack();

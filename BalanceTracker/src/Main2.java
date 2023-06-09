@@ -11,6 +11,10 @@ import java.util.Iterator;
 
 public class Main2{
     public static void main(String[] args)  {
+
+
+        String info = Integer.toString(LocalDate.now().getYear());
+        System.out.println( "Anno: " + info );
 /*
         int infoInt = 2022;
         int mese = 8;

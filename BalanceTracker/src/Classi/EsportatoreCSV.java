@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Esportatore nel formato CSV
+ * Esportatore del bilancio nel formato CSV
  * @author Christian von Waldorff
  */
 

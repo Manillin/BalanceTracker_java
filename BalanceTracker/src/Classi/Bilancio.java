@@ -1,4 +1,5 @@
 package Classi;
+
 import Interfacce.Salvabile;
 
 import java.awt.*;
@@ -7,11 +8,11 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * @author Christian von Waldorff
- * Classe che rappresenta l'insieme delle transazioni (struttura dati) con le sue primitive
+ * Classe che rappresenta l'insieme delle transazioni (struttura dati)
+ * con le sue primitive di manipolazione
  */
 
 public class Bilancio implements Salvabile, Serializable, Printable {
@@ -19,18 +20,16 @@ public class Bilancio implements Salvabile, Serializable, Printable {
     private float sommaTot;
     private String valuta;
 
-
     /**
      * Costruttori con e senza parametri per la creazione di un bilancio
      */
-    public Bilancio(){
+    public Bilancio() {
         listaB = new ArrayList<Transazione>();
         sommaTot = 0F;
         valuta = "€";
     }
 
-
-    public Bilancio(ArrayList<Transazione> l, float somma ){
+    public Bilancio(ArrayList<Transazione> l, float somma) {
         this.listaB = l;
         this.sommaTot = somma;
         valuta = "€";
@@ -39,12 +38,18 @@ public class Bilancio implements Salvabile, Serializable, Printable {
 
     /**
      * Setter e getter della classe
+     *
      */
     public ArrayList<Transazione> getListaB() {
         return listaB;
     }
 
-    public ArrayList<Transazione> getFilteredList(FiltroRicerca f){
+    /**
+     * Metodo per ottenere una specifica lista di transazioni in base al filtro di ricerca scelto
+     * @param f -> Filtro di ricerca
+     * @return Restituisce la lista filtrata
+     */
+    public ArrayList<Transazione> getFilteredList(FiltroRicerca f) {
         ArrayList<Transazione> l = new ArrayList<Transazione>();
         Transazione app;
         for (Transazione transazione : listaB) {
@@ -56,6 +61,10 @@ public class Bilancio implements Salvabile, Serializable, Printable {
         return l;
     }
 
+    /**
+     * Ottiene la somma di tutte le transazioni
+     * @return Restituisce la somma delle transazioni totali
+     */
     public float getSommaTot() {
         sommaTot = 0;
         for (Transazione transazione : listaB) {
@@ -64,7 +73,12 @@ public class Bilancio implements Salvabile, Serializable, Printable {
         return sommaTot;
     }
 
-    public float getFilteredTot(FiltroRicerca f){
+    /**
+     *  Ottiene la somma di tutte le transazioni per una lista filtrata
+     * @param f -> Filtro di ricerca
+     * @return Restituisce la somma delle transazioni totali dentro la lista filtrata
+     */
+    public float getFilteredTot(FiltroRicerca f) {
         float somma = 0;
         ArrayList<Transazione> l = getFilteredList(f);
         for (Transazione transazione : l) {
@@ -74,83 +88,57 @@ public class Bilancio implements Salvabile, Serializable, Printable {
     }
 
 
-    //Ritorna elemento all'indice 'i' dentro la lista di transazioni
-    public Transazione getTransazioneAt(int index){
-        return listaB.get(index);
-    }
-
     /**
-     * Aggiunge una transazione all'arraylist
+     * Aggiunge una transazione all'arraylist e aggiorna la somma totale
      * @param t -> Nuova transizione da registrare
-     *
      */
     public void addTransazione(Transazione t) {
         listaB.add(t);
         sommaTot += t.getAmmontare();
     }
 
-
-    public void delTransazione(Transazione t){
-        Iterator<Transazione> iterator = listaB.iterator();
-        while(iterator.hasNext()){
-            Transazione tz = iterator.next();
-            if(tz.equals(t)){
-                iterator.remove();
-                sommaTot -= tz.getAmmontare();
-            }
-        }
-    }
-
-
-    /*
-    Classe per debugging
+    /**
+     * Restituisce la valuta utilizzata
+     * @return Valuta della lista considerata
      */
-    public void printBalance(){
-        for(int i= 0 ; i<listaB.size();i++){
-            System.out.println(i+": "+listaB.get(i).toString());
-        }
-    }
-
-    public String getValuta(){
+    public String getValuta() {
         return valuta;
     }
 
-
     /**
-     * Metodo che permette di scrivere e salvare su un file il bilancio attualmente in uso
-     *
+     * Metodo che permette di scrivere e salvare su un file il bilancio attualmente
+     * in uso
      * @param fileName -> Nome del file dove si vuole salvare il bilancio
-     * @param ext -> Estensione con cui il file verrà salvato
-     * @return status
+     * @param ext      -> Estensione con cui il file verrà salvato
+     * @return status dell'operazione
      */
-    public boolean salvaSuFile(String fileName, String ext){
+    public boolean salvaSuFile(String fileName, String ext) {
         FileOutputStream f = null;
 
-        //Controllo ext:
-        int inizio,fine;
+        // Controllo ext:
+        int inizio, fine;
         inizio = (fileName.length() - ext.length());
         fine = fileName.length();
 
-        if(!fileName.subSequence(inizio,fine).equals(ext)){
+        if (!fileName.subSequence(inizio, fine).equals(ext)) {
             System.out.println("Aggiunta estensione al file -> " + ext);
-            fileName = fileName+ext;
+            fileName = fileName + ext;
         }
-
-        try{
+        try {
             f = new FileOutputStream(fileName);
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("Errore nella scrittura su file [EXP: " + e.toString() + " ]");
             return false;
         }
         ObjectOutputStream os = null;
         System.out.println("Scrittura su file...");
 
-        try{
+        try {
             os = new ObjectOutputStream(f);
             os.writeObject(listaB);
             os.flush();
             os.close();
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println("Errore nella scrittura su file [EXP: " + e.toString() + " ]");
             return false;
         }
@@ -158,42 +146,41 @@ public class Bilancio implements Salvabile, Serializable, Printable {
         return true;
     }
 
-
     /**
      * Metodo che legge e carica da un file un bilancio
+     * 
      * @param fileName -> Nome del file dal quale si vuole caricare il bilancio
-     * @return status
+     * @return status dell'operazione
      */
-    public boolean caricaDaFile(String fileName){
+    public boolean caricaDaFile(String fileName) {
         System.out.println("Inizio caricamento da file...");
         System.out.println("Lettura dati: ");
         FileInputStream fin = null;
         ObjectInputStream is = null;
-        try{
+        try {
             fin = new FileInputStream(fileName);
             is = new ObjectInputStream(fin);
-        }catch(IOException e){
-            System.out.println("Errore caricamento da file [EXP: " + e.toString()+ " ]");
+        } catch (IOException e) {
+            System.out.println("Errore caricamento da file [EXP: " + e.toString() + " ]");
             return false;
         }
         listaB = null;
-        try{
+        try {
             listaB = (ArrayList<Transazione>) (is.readObject());
             is.close();
-        }catch (IOException | ClassNotFoundException e){
-            System.out.println("Errore caricamento da file [EXP: " + e.toString()+ " ]");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Errore caricamento da file [EXP: " + e.toString() + " ]");
             return false;
         }
         return true;
     }
 
-
     /**
      * Classe che permette la stampa fisica di un bilancio -> estende printable
      *
-     * @param g il contesto in cui viene disegnata la pagina
-     * @param pf  le dimensioni e l'orientamento della pagina che viene disegnata
-     * @param page  l'indice in base zero della pagina da disegnare
+     * @param g    il contesto in cui viene disegnata la pagina
+     * @param pf   le dimensioni e l'orientamento della pagina che viene disegnata
+     * @param page l'indice in base zero della pagina da disegnare
      * @return ritorna un intero
      * @throws PrinterException Nel caso la stampa fallisca
      */
@@ -205,20 +192,33 @@ public class Bilancio implements Salvabile, Serializable, Printable {
 
         System.out.println("join with page = " + page);
 
-        if ( (page*maxBilanciPerPagina) > listaB.size()-1) {
+        if ((page * maxBilanciPerPagina) > listaB.size() - 1) {
             return NO_SUCH_PAGE;
         }
-
         int y = (int) pf.getImageableY();
-        System.out.println("x("+pf.getImageableX()+") , y(" + y +") ");
-        y+=g.getFontMetrics().getHeight();
-        System.out.println("x("+pf.getImageableX()+") , y(" + y +") ");
-        g.drawString(titolo , (int) pf.getImageableX(), y);
-        y+=g.getFontMetrics().getHeight();
-        for (int i = page * maxBilanciPerPagina; i < Math.min((page + 1) * maxBilanciPerPagina, listaB.size() ); i++) {      // la condizione del ciclo for permette di non mettere più di 15 bilanci per pagina
+        System.out.println("x(" + pf.getImageableX() + ") , y(" + y + ") ");
+        y += g.getFontMetrics().getHeight();
+        System.out.println("x(" + pf.getImageableX() + ") , y(" + y + ") ");
+        g.drawString(titolo, (int) pf.getImageableX(), y);
+        y += g.getFontMetrics().getHeight();
+        for (int i = page * maxBilanciPerPagina; i < Math.min((page + 1) * maxBilanciPerPagina, listaB.size()); i++) { // la
+                                                                                                                       // condizione
+                                                                                                                       // del
+                                                                                                                       // ciclo
+                                                                                                                       // for
+                                                                                                                       // permette
+                                                                                                                       // di
+                                                                                                                       // non
+                                                                                                                       // mettere
+                                                                                                                       // più
+                                                                                                                       // di
+                                                                                                                       // 15
+                                                                                                                       // bilanci
+                                                                                                                       // per
+                                                                                                                       // pagina
             System.out.println("i = " + i);
-            g.drawString(listaB.get(i).toString(valuta) , (int) pf.getImageableX(), y);
-            System.out.println("x("+pf.getImageableX()+") , y(" + y +") ");
+            g.drawString(listaB.get(i).toString(valuta), (int) pf.getImageableX(), y);
+            System.out.println("x(" + pf.getImageableX() + ") , y(" + y + ") ");
             y += g.getFontMetrics().getHeight();
         }
         return PAGE_EXISTS;

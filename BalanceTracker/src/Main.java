@@ -33,7 +33,6 @@ public class Main {
         Transazione t15= new Transazione("dfbe",53.53f,now2);
         Transazione t16= new Transazione("eerh",12.234f,now2);
         Transazione t17 = new Transazione("erge",12.45f,now2);
-        listaB.addTransazione(t1);
         listaB.addTransazione(t2);
         listaB.addTransazione(t4);
         listaB.addTransazione(t5);
