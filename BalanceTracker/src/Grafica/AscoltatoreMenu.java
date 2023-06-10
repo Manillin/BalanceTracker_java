@@ -8,7 +8,13 @@ import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
-import java.util.ArrayList;
+
+
+/**
+ * Classe che implementa l'ascoltatore in grado di reagire a interazioni con il Menu
+ * @author Christian von Waldorff
+ *
+ */
 
 public class AscoltatoreMenu implements ActionListener {
     private MainPanel mainPanel;
@@ -21,6 +27,10 @@ public class AscoltatoreMenu implements ActionListener {
     //to do in case of input:
     //uso del polimorfismo nell'esportazione.
 
+    /**
+     * Metodo che gestisce le interazioni con il menu
+     * @param e -> Evento che deve essere processato
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String input = e.getActionCommand();
@@ -43,19 +53,22 @@ public class AscoltatoreMenu implements ActionListener {
         }
     }
 
+    /**
+     * Metodo per gestire il salvataggio su File
+     */
     public void salvaSuFile() {
         Bilancio b;
         JFileChooser chooser = new JFileChooser();
         int resp = chooser.showSaveDialog(null);
 
-        //se l'utente conferma il savlvataggio
+        //se l'utente conferma il salvataggio
         if (resp == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             if (file.exists()) {
                 int res = JOptionPane.showConfirmDialog(null, "Vuoi sovrascrivere il file ?", "Conferma", JOptionPane.YES_NO_CANCEL_OPTION);
                 if (res == JOptionPane.YES_OPTION) {
                     b = mainPanel.getListaB();
-                    System.out.println("File scelto -> " + file.toString());
+                    System.out.println("File scelto -> " + file);
                     if (b.salvaSuFile(file.toString(), ".bin")) {  //.bin formato scelto per il salvataggio
                         JOptionPane.showMessageDialog(null, "Salvataggio eseguito correttamente", "Avviso", JOptionPane.INFORMATION_MESSAGE);
                     } else {
@@ -80,6 +93,9 @@ public class AscoltatoreMenu implements ActionListener {
         }
     }
 
+    /**
+     * Metodo per gestire il caricamento su file
+     */
     public void caricaDaFile(){
         Bilancio b;
         JFileChooser chooser = new JFileChooser();
@@ -97,7 +113,9 @@ public class AscoltatoreMenu implements ActionListener {
         mainPanel.update();
     }
 
-
+    /**
+     * Metodo per gestire la stampa su carta dal menu
+     */
     private void stampa() {
         System.out.println("Avvio funzione di stampa (AscoltatoreMenu) ");
         JOptionPane.showMessageDialog(null, "Apertura pannello anteprima di stampa, attendere...", "Messaggio", JOptionPane.INFORMATION_MESSAGE);
@@ -107,7 +125,7 @@ public class AscoltatoreMenu implements ActionListener {
 
         if (job.printDialog()) {
             try {
-                job.print();
+                job.print(); //metodo per la stampa (bilancio.java)
             } catch (PrinterException e) {
                 e.printStackTrace();
             }
@@ -115,7 +133,10 @@ public class AscoltatoreMenu implements ActionListener {
     }
 
 
-
+    /**
+     * Metodo per gestire l'esportazione a seconda del formato
+     * @param e -> Rappresenta un tipo di esportazione specifico (TXT,CSV,...)
+     */
     private void esporta(Esportatore e){
         System.out.println("Esporta");
         JFileChooser chooser = new JFileChooser();
@@ -133,7 +154,7 @@ public class AscoltatoreMenu implements ActionListener {
 
                     }
                 } else if(res == JOptionPane.NO_OPTION){
-                    System.out.println("Esportazione abortita");
+                    System.out.println("Esportazione dumped");
                 }
                 else{
                     System.out.println("Pop-up chiuso da user");

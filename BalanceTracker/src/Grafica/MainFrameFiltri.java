@@ -3,9 +3,20 @@ package Grafica;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Classe che implementa il JFrame principale che contiene i filtri
+ * @author Christian von Waldorff
+ *
+ */
+
 public class MainFrameFiltri extends JFrame {
 
-
+    /**
+     * Costruttore
+     * @param titolo Stringa che rappresenta il titolo del Frame
+     * @param mainPanel Riferimento al pannello principale
+     * @throws HeadlessException Gestione dell'errore
+     */
     public MainFrameFiltri(String titolo, MainPanel mainPanel) throws HeadlessException {
         super(titolo);
         String formatData = "dd/MM/yyyy";
@@ -31,7 +42,7 @@ public class MainFrameFiltri extends JFrame {
         //ascoltatore per giorno per far apparire e sparire testo quando c'è il hover sulla casella.
 
 
-        //Filtro: Mese !!OCCHIO A GENERICS !!
+        //Filtro: Mese
         JComboBox<String> mese = new JComboBox<String>();
         mese.addItem("Gennaio");
         mese.addItem("Febbraio");
@@ -71,6 +82,7 @@ public class MainFrameFiltri extends JFrame {
         sezione[2].add(giorno);
         sezione[3].add(confermaScelta);
 
+        //gestione dell'interazione con il frame di filtri
         AscoltatoreFiltri listener = new AscoltatoreFiltri(this,mainPanel,combo,settimana,mese,
                 sezione[2],giorno,anno,periodoInizio,periodoFine);
         //aggiunta ascoltatore ai vari elementi

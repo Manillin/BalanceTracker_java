@@ -22,7 +22,7 @@ public class EsportatoreCSV extends Esportatore{
         String separatore = ",";
         String estensione = ".csv";
         FileWriter fout = checkFileName(fileName,estensione);
-        try{expWriter(fout,separatore);}
+        try{expWriter(fout,separatore);} //polimorf
         catch (IOException e){
             System.out.println("Scrittura su file in CSV fallita [EXP: "+ e.toString()+ " ]");
             return false;

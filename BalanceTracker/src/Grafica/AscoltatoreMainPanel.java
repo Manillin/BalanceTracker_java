@@ -12,9 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
- * Classe che implementa l'ascoltatore in grado di reagire a interazioni con il
- * pannello principale
- * 
+ * Classe che implementa l'ascoltatore in grado di reagire a interazioni con il pannello principale
  * @author Christian von Waldorff
  *
  */
@@ -27,9 +25,9 @@ public class AscoltatoreMainPanel implements ActionListener {
     private final JTable table;
     private final JTextField stringaRicerca;
     private int ultimaRicerca;
-    private String bufferRicerca;
+    private String bufferRicerca; //contiene l'ultimo pattern passato come target ricerca
 
-    // Costruttore
+    // Costruttore - PULIRE PARAMETRI INUTILI
     public AscoltatoreMainPanel(JButton search, JButton add, JButton delete, JButton modify,
             Bilancio listaB, MainPanel mainPanel, MainTableModel model, JLabel totComplessivo,
             JTable table, JTextField stringaRicerca) {
@@ -56,23 +54,21 @@ public class AscoltatoreMainPanel implements ActionListener {
         if (tmp instanceof JButton) {
             if (tmp == add) {
                 String data = null, ammontare = null, descrizione = null;
-                Boolean datiInseriti = false;
-                int error = 1;
+                boolean datiInseriti = false; //variabile di checkpoint
+                int error = 1; //variabile per gestione del problema
                 LocalDate cData = LocalDate.now(); // serve come data default
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(MainTableModel.getDateFormat());
                 data = JOptionPane.showInputDialog("Data [ Formato: " + MainTableModel.getDateFormat() + " ]",
                         cData.format(formatter));
 
-                // Controlli servono per non fare aprire pannelli nel caso l'utente ne chiuda
-                // uno e non venga salvato nulla
-                // nelle corrispettive variabili
+                // Controlli: servono per non fare aprire i pannelli successivi nel caso d'interruzione prematura
                 if (data != null) {
                     ammontare = JOptionPane.showInputDialog("Importo: ");
                 }
                 if (ammontare != null) {
                     descrizione = JOptionPane.showInputDialog("Descrizione: ");
-                    datiInseriti = true;
+                    datiInseriti = true; //checkpoint raggiunto, i dati inseriti sono coerenti e corretti
                 }
 
                 if (datiInseriti) {
@@ -97,12 +93,11 @@ public class AscoltatoreMainPanel implements ActionListener {
                                         JOptionPane.ERROR_MESSAGE);
                             default ->
                                 System.out.println(
-                                        "Something went wrong - reached illegal default branch in switch case [AscoltatoreMainPanel.java line 80]");
+                                        "Something went wrong - reached illegal default branch in switch case [AscoltatoreMainPanel.java]");
                         }
                     }
-                    System.out.println("Totale Complessivo -> " + listaB.getSommaTot() + " euro");
+                    System.out.println("Totale Complessivo -> " + listaB.getSommaTot() + " euro"); //debug
                     mainPanel.update();
-
                 }
             } else if (tmp == search) {
                 System.out.println("Sono entrato nel tmp == search button");
@@ -130,9 +125,8 @@ public class AscoltatoreMainPanel implements ActionListener {
 
     /**
      * Metodo per cancellare un singolo elemento o piu elementi dal bilancio
-     * 
      * @param indici -> Array che contiene gli indici selezionati per la
-     *               cancellazione
+     *                  cancellazione
      */
 
     private void deleteSelectedRows(int[] indici) {
@@ -166,11 +160,14 @@ public class AscoltatoreMainPanel implements ActionListener {
      *              inizializzato a -1 [nessun elemento della tabella è stato
      *              trovato]
      *              bufferRicerca -> Serve per non escludere a priori elementi nella
-     *              tabella solo perchè
-     *              precedenti a quello che si sta cercando attualmente
+     *              tabella solo perché precedenti a quello che si sta cercando attualmente
      * @return true se trova elemento false altrimenti
      */
     public boolean cercaTransizione(JTable table, String input) {
+        //controllo nel caso in cui l'utente provi a fare una ricerca senza passare nessun pattern
+        if(input.equals("")){
+            return false;
+        };
         ArrayList<Transazione> l = listaB.getListaB(); // per ottenere lista filtrata
         if (bufferRicerca.equals("")) {
             bufferRicerca = input;

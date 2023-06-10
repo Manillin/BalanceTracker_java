@@ -25,7 +25,7 @@ public class EsportatoreTXT extends Esportatore{
         fout = checkFileName(fileName,estensione);
         try{expWriter(fout,separatore);}
         catch (IOException e){
-            System.out.println("Scrittura su file in CSV fallita [EXP: "+ e.toString()+ " ]");
+            System.out.println("Scrittura su file in TXT fallita [EXP: "+ e.toString()+ " ]");
             return false;
         }
         return true;

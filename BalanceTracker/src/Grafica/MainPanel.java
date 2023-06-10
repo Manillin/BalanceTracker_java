@@ -14,6 +14,17 @@ import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+
+/**
+ * Classe che compone il Panello Principale (Quello che vede l'utente)
+ * @author Christian von Waldorff
+ *
+ */
+
+
+
+
+
 public class MainPanel extends JPanel {
     private final int numSezioni = 5;
     private Bilancio listaB;
@@ -25,7 +36,6 @@ public class MainPanel extends JPanel {
 
     private JLabel tTotaleComplessivo;
     private JLabel totaleComplessivo;
-    private JLabel stringaRicerca;
     private JLabel titoloFiltro;
     private MainTableModel dModel;
     private JTable table;
@@ -33,6 +43,12 @@ public class MainPanel extends JPanel {
     private JTextField fieldRicerca;
     private DecimalFormat floatFormat;
 
+
+    /**
+     * Costruttore del pannello
+     * @param b Bilancio contenente le transazioni
+     * @param filtroRicerca Filtro di ricerca applicato per garantire giusta visualizzazione delle transazioni
+     */
     public MainPanel(Bilancio b, FiltroRicerca filtroRicerca) {
         this.currentFilter = filtroRicerca;
         this.listaB = b;
@@ -45,6 +61,9 @@ public class MainPanel extends JPanel {
 
     }
 
+    /**
+     * Metodo che aggiorna il panello principale.
+     */
     public void update() {
         this.removeAll();
         this.setVisible(false);
@@ -73,7 +92,7 @@ public class MainPanel extends JPanel {
         tTotaleComplessivo = new JLabel("Totale Complessivo: ");
         totaleComplessivo = new JLabel("[ " + tot + " ]");
         // updateSomma(totaleComplessivo,tot);
-        stringaRicerca = new JLabel("Cerca una transazione: ");
+        JLabel stringaRicerca = new JLabel("Cerca una transazione: ");
         titoloFiltro = new JLabel("Bilancio:  " + currentFilter.toString()); // <- aggiungere filtro data
         dModel = new MainTableModel(listaB, this, currentFilter);
         table = new JTable(dModel);

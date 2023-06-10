@@ -38,6 +38,7 @@ public class FiltroRicerca {
     /**
      * Metodo che implementa la logica a periodi
      * PeriodoIniziale to PeriodoFinale
+     * Gestisce anche caso di formato sbagliato nel filtro -> formato default -> anno corrente
      */
     public void genRange(){
         LocalDate now = LocalDate.now();
@@ -82,7 +83,7 @@ public class FiltroRicerca {
             }
         }
 
-        //In caso di errori si mette come filtro di default il filtro per anno e si richiama la funzione
+        //In caso di errori si mette come filtro di default il filtro per anno (corrente) e si richiama la funzione
         if(error){
             this.fType = TipoFiltro.Anno;
             info = Integer.toString(LocalDate.now().getYear());
@@ -127,8 +128,8 @@ public class FiltroRicerca {
     }
 
     /**
-     * Metodo che trasforma in stringa il mio filtro
-     * @return Filtro trasformato in stringa
+     * Trasformo in stringa il Filtro per poterlo visualizzare dentro un JLabel
+     * @return Filtro trasformato in string
      */
     @Override
     public String toString(){
@@ -169,17 +170,17 @@ public class FiltroRicerca {
         }else if(fType == TipoFiltro.Periodo){
             return "[ "+info+" ]";
         }
-        return "Something went wrong [FiltroRicerca.java line 177]";
+        return "Something went wrong [FiltroRicerca.java]";
     }
 
 
     /**
-     *
+     * nota: il compareTo usato è quello definito in LocalDate, non quello definito in Transazione.
      * @param t -> Transazione su cui fare il controllo con il filtro attuale
      * La funzione compareTo(LocalDate data) di LocalDate mi confronta due date, e restituisce:
      *          <0 se la data è precedente | >0 se la data è successiva | == 0 se la data è uguale
      *          in base a questo decreto se una data rispetta l'intervallo in accordo con il filtro scelto
-     * @return true se la data rispetta filtro | false se la dat anon rispetta il filtro
+     * @return true se la data rispetta filtro | false se la data non rispetta il filtro
      */
 
     public boolean isElementValid(Transazione t){

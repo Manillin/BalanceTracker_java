@@ -29,7 +29,6 @@ public class AscoltatoreFiltri implements ActionListener {
     private final JTextField fineP;
     private final JLabel periodo;
     private final JPanel periodoPanel;
-    private final Bilancio b;
 
 
     public AscoltatoreFiltri(JFrame f,MainPanel p, JComboBox<String> cb,JComboBox<String> settimana,JComboBox<String> mese, JPanel sez,
@@ -47,7 +46,7 @@ public class AscoltatoreFiltri implements ActionListener {
         this.sceltaAttuale = "Giorno"; //scelta attuale per default è giorno
         periodo = new JLabel("Data inizio -- Data fine: ");
         periodoPanel = new JPanel();
-        b = p.getListaB();
+        Bilancio b = p.getListaB();
     }
 
 
@@ -70,7 +69,7 @@ public class AscoltatoreFiltri implements ActionListener {
                     System.out.println("Filtro applicato -> " + f);
                 }
                 case "Mese" -> {
-                    f = new FiltroRicerca(TipoFiltro.Mese, monthToInt((String) mese.getSelectedItem()));
+                    f = new FiltroRicerca(TipoFiltro.Mese, monthToInt((String) Objects.requireNonNull(mese.getSelectedItem()))); //aggiunto per warning
                     System.out.println("Filtro applicato -> " + f);
                 }
                 case "Anno" -> {
@@ -81,16 +80,15 @@ public class AscoltatoreFiltri implements ActionListener {
                     f = new FiltroRicerca((TipoFiltro.Periodo), inizioP.getText() + " <-> " + fineP.getText());
                     System.out.println("Filtro applicato -> " + f);
                 }
-                default -> System.out.println("Something went wrong [switch case] - AscoltatoreFiltri.java line 58");
+                default -> System.out.println("Something went wrong [switch case] - AscoltatoreFiltri.java");
             }
-            //Setto filtro e aggiorno tabella
+            //Setto, filtro e aggiorno tabella
             mainPanel.setCurrentFilter(f);
             mainPanel.update();
         } else {
-            String scelta = (String) comboBox.getSelectedItem(); //mi restituisce il header del filtro che l'user ha scelto
-            //se la scelta è diversa da default allora si fa clear è si aggiunge il componente
+            String scelta = (String) comboBox.getSelectedItem(); //mi restituisce il filtro che l'user ha scelto (in Str)
+            //Si esegue una clear del Panel Filtri per applicare i cambiamenti
             //se è == a giorno allora non si deve fare clear
-            //C'è comunque l'opzione per giorno in caso un user cambi filtro da giorno a filtro x e poi cambi idea e torni a filtrare per giorno.
             if (!Objects.equals(scelta, sceltaAttuale)) {
                 sceltaAttuale = scelta;
                 clearPanel(sezione);
@@ -106,19 +104,27 @@ public class AscoltatoreFiltri implements ActionListener {
                         sezione.add(periodoPanel);
                     }
                     default ->
-                            System.out.println("Something went wrong [switch case] - AscoltatoreFiltri.java line 89");
+                            System.out.println("Something went wrong [switch case] - AscoltatoreFiltri.java ");
                 }
+                //dimensionamento del frame
                 frame.pack();
             }
         }
     }
 
-
+    /**
+     * Resetta un pannello
+     * @param sezione Panel da pulire
+     */
     public void clearPanel(JPanel sezione) {
         sezione.removeAll();
     }
 
-    //Ritorna in Stringa il numero intero che corrisponde al mese scelto (sempre sotto forma di stringa)
+    /**
+     * Metodo per trasformare un mese in una stringa corrispondente al numero di tale mese
+     * @param mese -> Mese considerato
+     * @return Ritorna la stringa corrispondente al numero del mese passato come parametro
+     */
     private String monthToInt(String mese) {
         String t = mese.toLowerCase();
         return switch (t) {
@@ -134,7 +140,7 @@ public class AscoltatoreFiltri implements ActionListener {
             case "ottobre" -> "10";
             case "novembre" -> "11";
             case "dicembre" -> "12";
-            default -> "Error";
+            default -> "Error [MonthToInt switch case]";
         };
 
     }

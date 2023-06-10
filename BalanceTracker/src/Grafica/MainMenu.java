@@ -3,6 +3,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+
+/**
+ * Classe che rappresenta il Menu Principale dell'applicazione
+ * @author Christian von Waldorff
+ *
+ */
+
+
 public class MainMenu {
     private JMenuBar menuBar;
     private JMenuItem salva = new JMenuItem("Salva su file");
@@ -12,10 +20,12 @@ public class MainMenu {
     private JMenuItem filtri = new JMenuItem("Filtri");
     private JMenuItem stampa = new JMenuItem("Stampa");
     private JMenu menu = new JMenu("Impostazioni");
-    private MainPanel mainPanel;
 
+    /**
+     * Costruttore del menu
+     * @param p Riferimento al Pannello Principale
+     */
     public MainMenu(MainPanel p){
-        this.mainPanel = p;
         menuBar = new JMenuBar();
         menu.add(salva);
         menu.add(carica);
@@ -34,7 +44,10 @@ public class MainMenu {
 
         menuBar.add(menu);
     }
-
+    /**
+     * Getter del menuBar
+     * @return Riferimento al MenuBar
+     */
     public JMenuBar getMenuBar(){
         return menuBar;
     }

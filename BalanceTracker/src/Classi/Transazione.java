@@ -14,6 +14,7 @@ public class Transazione implements Comparable, Serializable {
     private float ammontare;
 
     /**
+     * Costruttore della classe
      * @param descrizione -> Descrizione della transazione
      * @param ammontare -> Ammontare totale della transazione
      * @param data -> Data della transizione
@@ -54,14 +55,24 @@ public class Transazione implements Comparable, Serializable {
     }
 
 
-
+    /**
+     * Potrebbe essere inutile questo metodo.
+     * Metodo per comparare Transazioni in base alla loro data
+     * @param obj Corrisponde alla Transazione target del confronto
+     * @return Restituisce un intero < 0 se t2.data è anteriore a this.data | >0 se è posteriore | == 0 se coincide
+     */
     @Override
     public int compareTo(Object obj) {
-        Transazione t2 = (Transazione) obj;
-        return this.data.compareTo(t2.getData());
+        //Transazione t2 = (Transazione) obj;
+       // return this.data.compareTo(t2.getData()); //questo compareTO è della classe LocalDate
+        return 0;
     }
 
-
+    /**
+     * Metodo per stampare tutti gli attributi di una transazione con la valuta compresa [tenere per debug]
+     * @param valuta valuta della transazione
+     * @return Transazione sotto forma di Stringa stampabile
+     */
     public String toString(String valuta){
         return data.toString() + " " + ammontare + valuta+ " " + descrizione;
     }

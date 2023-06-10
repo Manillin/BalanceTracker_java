@@ -1,7 +1,7 @@
 package Classi;
 
 /**
- * Enumerazione del tipo di filtro che il mio bilancio può accettare
+ * Enumerazione del tipo di filtro applicabile a una ricerca nel bilancio
  * @author Christian von Waldorff
  */
 
