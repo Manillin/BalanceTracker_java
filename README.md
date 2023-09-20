@@ -9,6 +9,3 @@ MiniProgetto per gestire un bilancio
 - Esportazione in diversi formati [check]
 - Uso dell'incapsulamento , ereditarietà e polimorfismo [check]
 - Fix bugs [check]
-
-Missing:
-Documentazione approfondita in JavaDoc [ due ]
