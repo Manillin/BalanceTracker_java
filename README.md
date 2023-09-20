@@ -2,7 +2,7 @@
 
 MiniProgetto per gestire un bilancio
 
-- GUI [ da sistemare ]
+- GUI [ check ]
 - Ricerca di transazioni [check]
 - Disponibilità di filtri per narrow research [check]
 - Salvataggio e Caricamento bilancio da file [check]
